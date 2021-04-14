@@ -20,12 +20,53 @@ def create_book(google_id, name, subject):
     return book
 
 
-def save_user_books(user_id,google_id, review, favorite, suggest ):
+def save_user_books(user_id,google_id, review=None, favorite=False, suggest = False ):
     """save user and books relationship"""
-    userbooks = UserBook(user_id= user_id, google_id = google_id, review= review, favorite=favorite, suggest= suggest)
-    db.session.add(userbooks)
+    
+    userbook = UserBook(user_id= user_id, google_id = google_id, review= review, favorite=favorite, suggest=suggest)
+    db.session.add(userbook)
     db.session.commit()
-    return userbooks
+    return userbook
+
+    #save_user_books(2,YYwaEAAAQBAJ)
+
+
+def update_userbook_favorite(user_id,google_id,name, favorite):
+    """save user and books relationship"""
+    userbook = UserBook.query.filter( (UserBook.user_id== user_id) &  (UserBook.google_id == google_id)).first()
+    if userbook:
+        userbook.favorite=favorite
+        #db.session.query(UserBook).filter((UserBook.user_id== user_id) &  (UserBook.google_id == google_id)).update({'favorite':favorite})
+    else:
+        book = Book.query.get(google_id)
+        if book:
+            userbook = save_user_books(user_id, google_id,None,favorite)
+        else:
+            book=create_book(google_id,name,subject=None)
+            userbook = save_user_books(user_id, google_id,None,favorite)
+
+    db.session.add(userbook)
+    db.session.commit()
+    return userbook
+
+
+def update_userbook_suggest(user_id,google_id, name, suggest):
+    """update user and books """
+    userbook = UserBook.query.filter( (UserBook.user_id== user_id) &  (UserBook.google_id == google_id)).first()
+    if userbook:
+        userbook.suggest=suggest
+    else:
+        book = Book.query.get(google_id)
+        if book:
+            userbook = save_user_books(user_id, google_id,None,suggest)
+        else:
+            book=create_book(google_id,name,subject=None)
+            userbook = save_user_books(user_id, google_id,None,False,suggest)
+    db.session.add(userbook)
+    db.session.commit()
+    return userbook
+
+
 
 
 
@@ -45,6 +86,9 @@ def get_user(userid):
 
     return User.query.get(userid)
 
+def get_userbook():
+    return UserBook.query.all()
+
 def userlogin(email,password):
 
     return User.query.filter( (User.email== email) &  (User.password ==password)).first()
@@ -53,17 +97,10 @@ def userlogin(email,password):
 # password=25Mz!Q(r+K
 #
 
-
-
 def get_books_of_user(user_id):
     """return books of particular user"""
     books = db.session.query(Book).join(UserBook).filter(UserBook.user_id==user_id).all()
     return books
-
-
-
-    
-
 
 
 

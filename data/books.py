@@ -34,11 +34,12 @@ def get_book_arts():
     a = res.json()
     books = []
     for b in a['items']:
+        id = b["id"]
         title = b['volumeInfo']['title']
         authors= [b['volumeInfo']['authors'] if 'authors'  in b['volumeInfo'].keys() else None]
         categoies = [b['volumeInfo']['categories'] if 'categories'  in b['volumeInfo'].keys() else None]
         imageLink =  b['volumeInfo']['imageLinks']
-        books.append((title,authors,categoies,imageLink))
+        books.append((id,title,authors,categoies,imageLink))
 
 
     return books
