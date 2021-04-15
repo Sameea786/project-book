@@ -103,6 +103,18 @@ def get_books_of_user(user_id):
     return books
 
 
+def get_favorite(user_id):
+    google_id=[]
+    google_id.append(db.session.query(Book.google_id).join(UserBook).filter((UserBook.user_id==user_id) &(UserBook.favorite==True ) ).all())
+
+    google_id.append(db.session.query(Book.google_id).join(UserBook).filter((UserBook.user_id==user_id) &(UserBook.suggest==True ) ).all())
+   
+
+    return google_id
+
+
+
+
 
 if __name__ == '__main__':
     from server import app

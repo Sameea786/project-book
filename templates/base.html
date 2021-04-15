@@ -43,17 +43,20 @@
                       <a class="nav-link" href="#aboutModal" data-toggle="modal" data-target="#aboutModal">About US</a>
                   </li>
               
-                  {% if session_id is none %}
+                  {% if session.get('id') is none %}
                   <li class="nav-item" >
                       <a class="nav-link" id="login"  href="/login">Log in</a>
                   </li>
                   {% endif %}
-                  {% if session_id is not none %}
+                  {% if session.get('id') is not none %}
                   <li class="nav-item" >
                     <a class="nav-link" id="logout" href="#">Log out</a>
                   </li>
                   <li class="nav-item" >
                     <a class="nav-link" id="login" href="/login" style="display: none">Log in</a>
+                </li>
+                <li class="nav-item" >
+                  <a class="nav-link" id="profile" href="/userprofile">Profile</a>
                 </li>
                   {% endif %}
                   

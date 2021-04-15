@@ -34,35 +34,32 @@ $('.suggest').on("change",(evt)=>{
 });
 
 
-// $('#login').on("click", (evt)=>{
-    
-//     evt.preventDefault()
-//     const text =$("#login").text()
-//     $.get("/login",(result)=>{
-//            resul
-//         alert(text)
-//         alert(result)
-
-//     });
-// })'
-
-
-// $("#signin").on('click',(evt)=>{
-
-//     $("#login").toggle()
-// })
-
 $("#logout").on('click',(evt)=>{
-    alert("sigin")
     evt.preventDefault()
    
     $.get("/logout", (result)=>{
-        alert("In function")
+        
     $("#login").show()
     $("#logout").toggle()
   })
  });
  
+
+ $("#favorite-link").on("click",(evt)=>{
+     
+     evt.preventDefault()
+    $("#favorite-div").show()
+    $("#suggest-div").toggle()
+
+ });
+
+ $("#suggest-link").on("click",(evt)=>{
+   
+    evt.preventDefault()
+   $("#suggest-div").show()
+   $("#favorite-div").toggle()
+
+});
 
 
 

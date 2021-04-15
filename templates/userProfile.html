@@ -1,4 +1,57 @@
-<div>
-    <a href= '/processlogout'>log out
-    </a>
+{% extends 'base.html' %}
+
+{% block body %}
+
+<div class="container" style="max-width: 80%;margin-left: 10%;margin-top: 10px;">
+    <div class="card mb-3" >
+    <div class="row no-gutters">
+      <div class="col-md-4">
+        <img src="/static/img/default_img.jpg.png" class="card-img" alt="...">
+      </div>
+      <div class="col-md-8">
+        <div class="card-body">
+          <h5 class="card-title user-name">user.name</h5>
+          <p class="card-text email">user email.</p>
+          <a class="card-text edit">Edit</a>
+        </div>
+      </div>
+    </div>
+    </div>
+
+
+  <div class="card mb-3">
+    <div class="row no-gutters">
+        <a  id ="favorite-link" class="btn btn-secondary col-4" style="background-color: rgb(217, 255, 242);">Favorite</a>
+        <a  id ="suggest-link" class="btn btn-secondary col-4" style="background-color: rgb(217, 255, 242);">Suggest</a>
+        <a  class="btn btn-secondary col-4" style="background-color: rgb(217, 255, 242);">Review</a>
+    </div>
+  </div>
+
+  <div class="card mb-3" style="display: none" id="favorite-div">
+    <div class="row ">
+    {% for book in fav_books %}
+    <div class= "col-sm-4 book-info" style="margin-top: 20px;margin-left: 20px;">
+        <img src="{{book[4]['smallThumbnail']}}" name="book-link">
+        <h3 name="book-title"  id="book-title-{{book[1]}}" val={{book[1]}}>{{book[1]}} </h2>
+        <h5 name ="author-name" >{{book[2]}}</h3>    
+    </div>
+    {% endfor %}
+  </div>
+  </div>
+
+  <div class="card mb-3" style="display: none" id="suggest-div">
+    <div class="row ">
+    {% for book in suggest_books %}
+    <div class= "col-sm-4 book-info" style="margin-top: 20px;margin-left: 20px;">
+        <img src="{{book[4]['smallThumbnail']}}" name="book-link">
+        <h3 name="book-title"  id="book-title-{{book[1]}}" val={{book[1]}}>{{book[1]}} </h2>
+        <h5 name ="author-name" >{{book[2]}}</h3>    
+    </div>
+    {% endfor %}
+  </div>
+  </div>
+
+
 </div>
+
+  {% endblock %}

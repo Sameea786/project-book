@@ -3,9 +3,16 @@
 
 {% block body %}
 <div>
-    
-    
     <div class="container">
+          <nav class="navbar navbar-light bg-light" style="width: 60%;margin-top: 50px;margin-left: 40%;">
+            <form class="container-fluid" action="/search">
+              <div class="input-group">
+                <input class="form-control me-2" name ="search" type="search" placeholder="Search" aria-label="Search">
+                <button class="btn btn-outline-success" id="searchbook" type="submit">Search</button>
+              </div>
+            </form>
+          </nav>
+
         <div class="row">
         {% for book in books %}
         <div class= "col-sm-4 book-info" name="third">
