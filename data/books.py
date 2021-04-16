@@ -6,22 +6,22 @@ APIKEY = os.environ["APIKEY"]
 
 
 def search_book_with_google_id(ids):
-    print(ids)
+    """search book with google id and return books"""
+
     payload ={ "key" : APIKEY}
-    a=[]
+    books_api=[]
     for i in ids:
         url2 = "https://www.googleapis.com/books/v1/volumes/"+i[0]
         res=requests.get(url2, params = payload)
-        a.append(res.json())
+        books_api.append(res.json())
     books = []
-    print(a)
-    for b in a:
-        j = b["id"]
-        title = b['volumeInfo']['title']
-        authors= [b['volumeInfo']['authors'] if 'authors'  in b['volumeInfo'].keys() else None]
-        categoies = [b['volumeInfo']['categories'] if 'categories'  in b['volumeInfo'].keys() else None]
-        imageLink =  b['volumeInfo']['imageLinks']
-        books.append((j,title,authors,categoies,imageLink))
+    for book in books_api:
+        google_id = book["id"]
+        title = book['volumeInfo']['title']
+        authors= [book['volumeInfo']['authors'] if 'authors'  in book['volumeInfo'].keys() else None]
+        categoies = [book['volumeInfo']['categories'] if 'categories'  in book['volumeInfo'].keys() else None]
+        imageLink =  book['volumeInfo']['imageLinks']
+        books.append((google_id,title,authors,categoies,imageLink))
 
 
     return books

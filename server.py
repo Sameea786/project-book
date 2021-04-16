@@ -38,7 +38,7 @@ def login():
     if session.get("id") is None:
         return render_template("login.html" )
     else:
-        return render_template("index.html",books=BOOKs)
+        return redirect("/")
 
 
 
@@ -51,7 +51,7 @@ def process_login():
     user=crud.userlogin(email,password)
     if user:
         session["id"] =user.user_id
-        return render_template("index.html",books=BOOKs)
+        return redirect("/")
     else:
         return "You need to sign up"
 
@@ -61,8 +61,8 @@ def process_login():
 def process_logout():
     """in this function user will be logout by assigning session None"""
     session["id"] =None
-    print("@"*10,session["id"])
-    return render_template("index.html", books= BOOKs)
+    print("*"*10,session["id"])
+    return redirect("/")
 
 
 
@@ -98,21 +98,53 @@ def search_book():
     books=get_books(search_keyword)
     return  render_template("index.html", books= books)
 
+
+
 @app.route('/userprofile')
 def user_profile():
-    """user profile"""
-    if session.get("id",None):
-        google_id=crud.get_favorite(4)
-        print(google_id)
-        fav_books=search_book_with_google_id(google_id[0])
+    """user profile and return his favorite and suggested book """
+    if session.get("id") is not None:
+        user=crud.get_user(session['id'])
+        name = user.fname+" "+user.lname
+        google_id = crud.get_favorite(session['id'])
+        fav_books = search_book_with_google_id(google_id[0])
         suggest_books = search_book_with_google_id(google_id[1])
-        return render_template("userProfile.html",fav_books=fav_books,suggest_books=suggest_books)
+        return render_template("userProfile.html",fav_books=fav_books,suggest_books=suggest_books, name=name, email=user.email)
     else:
-        return "you need to sign up"
+       return redirect("/" )
+
+
+@app.route('/signup')
+def sign_up():
+    
+    if session.get("id") is None:
+        return render_template("signup.html")
+    else:
+        return redirect("/login")
+
+
+
+@app.route('/processSignup', methods=["POST"])
+def process_signup():
+
+    fname,lname = request.form.get("name").split()
+    email = request.form.get("email")
+    password = request.form.get("password")
+    age = request.form.get("age")
+    gender= request.form.get("gender")
+    user=crud.create_user(fname,lname,email,password,age,gender)
+    print(user)
+    return redirect("/")
+    
 
 
 
 
+
+    if session.get("id") is None:
+        return render_template("signup.html")
+    else:
+        return redirect("/login")
 
 
 

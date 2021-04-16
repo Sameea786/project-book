@@ -2,7 +2,7 @@
 from model import db, User, Book, UserBook, connect_to_db
 
 
-def create_user(fname, lname, email, password, age, gender, city, country):
+def create_user(fname, lname, email, password, age, gender, city = None, country=None):
     """create and return new user"""
 
     user = User(fname = fname, lname= lname, email = email, password = password, age= age, gender= gender, city= city, country= country)
@@ -83,15 +83,17 @@ def get_alluser():
 
 def get_user(userid):
     """get information of particular user"""
-
     return User.query.get(userid)
+
 
 def get_userbook():
     return UserBook.query.all()
 
+
 def userlogin(email,password):
 
     return User.query.filter( (User.email== email) &  (User.password ==password)).first()
+    
 
 # email =bmoore@yahoo.com 
 # password=25Mz!Q(r+K
