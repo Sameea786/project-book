@@ -30,10 +30,24 @@
     <div class="card mb-3" style="display: none" id="favorite-div">
         <div class="row no gutters ">
           {% for book in fav_books %}
-            <div class= "col-sm-4 book-info" style="margin-top: 20px;margin-left: 20px;">
+            <div class= "col-sm-3 book-info" style="margin-top: 20px;margin-left: 20px;margin-right: auto;">
                 <img src="{{book[4]['smallThumbnail']}}" name="book-link">
-                <h3 name="book-title"  id="book-title-{{book[1]}}" val={{book[1]}}>{{book[1]}} </h2>
-                <h5 name ="author-name" >{{book[2]}}</h3>    
+                <p name="book-title"  id="book-title-{{book[1]}}" val={{book[1]}}>{{book[1]}} </p>
+                <p name ="author-name" >{{book[2]}}</p> 
+                  <div class="dropdown book-attr" name="second">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      Remove Collection
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <div class="dropdown-item form-check" name="first">
+                            <input class="form-check-input favorite" type="checkbox" name="{{book[1]}}" value="" id="{{book[0]}}" checked>
+                            <label class="form-check-label" for="flexCheckDefault">
+                                Favorite
+                              </label>  
+                        </div>  
+                    </div>
+                </div>   
+
             </div>
           {% endfor %}
         </div>
@@ -42,10 +56,25 @@
   <div class="card mb-3" style="display: none" id="suggest-div">
     <div class="row no gutters">
     {% for book in suggest_books %}
-    <div class= "col-sm-3 book-info" style="margin-top: 20px;margin-left:auto;margin-right: auto;">
+    <div class= "col-sm-3 book-info" style="margin-top: 20px;margin-left:30px;margin-right: auto;">
         <img src="{{book[4]['smallThumbnail']}}" name="book-link">
         <p name="book-title"  id="book-title-{{book[1]}}" val={{book[1]}}>{{book[1]}} </p>
-        <p name ="author-name" >{{book[2]}}</p>    
+        <p name ="author-name" >{{book[2]}}</p>
+        <div class="dropdown book-attr" name="second">
+          <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Remove Collection
+          </button>
+          <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+
+              <div class="dropdown-item form-check">
+                  <input class="form-check-input suggest" type="checkbox" name="{{book[1]}}" value="" id="suggest-{{book[0]}}" checked>
+                  <label class="form-check-label" for="flexCheckDefault">
+                      Suggest
+                  </label>
+              </div> 
+          </div>
+      </div>   
+
     </div>
     {% endfor %}
   </div>

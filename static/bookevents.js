@@ -1,12 +1,19 @@
 
 "use strict";
 
-//adding book in user favorite collection
-$('.favorite').on("change",(evt)=>{
+//adding book in user favorite and suggestion collection
+
+$('.favorite,.suggest').on("change",(evt)=>{
     evt.preventDefault()
     const google_id = evt.target.id
     const name= evt.target.name
-    $.get('/addfavorite/'+google_id+'/'+name ,(result)=>{
+    const status = evt.target.checked
+    const dataform={
+        'google_id':google_id,
+        'name' :  name,
+        'status' : status,
+    }
+    $.post('/favorite',dataform ,(result)=>{
         const name= evt.target.name
         if (result.message=== "You need to sign up"){
 
@@ -15,43 +22,9 @@ $('.favorite').on("change",(evt)=>{
         else{
                 alert(result.message)
         }
-
-        
     } );
 });
 
-
-//adding book in user suggestion collection 
-$('.suggest').on("change",(evt)=>{
-    evt.preventDefault()
-    const id = evt.target.id
-    const name= evt.target.name
-    $.get('/addsuggest/'+id+'/'+name ,(result)=>{
-        
-        if (result.message== "You need to sign up"){
-            $('#'+google_id).prop("checked",false)
-            alert(result.message)
-        }
-        else{
-            alert(result.message)
-
-        }  
-    } );
-});
-
-
-// $("#logout").on('click',(evt)=>{
-//     evt.preventDefault()
-   
-//     $.get("/logout", (result)=>{
-        
-//     $("#login").show()
-//     $("#logout").toggle()
-//     //$("#profile").toggle()
-    
-//     console.log(result.show())
-//   })
-//  });
  
 
 
@@ -76,6 +49,7 @@ $('.suggest').on("change",(evt)=>{
    
 
 });
+
 
 
 

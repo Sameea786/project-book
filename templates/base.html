@@ -1,3 +1,5 @@
+<!-- this is the base page it wil show on every page and it has navbar with different elemnts-->
+
 <!doctype html>
 <html>
   <head>
@@ -50,7 +52,7 @@
                   <li class="nav-item" >
                     <a class="nav-link" id="login"  href="/signup">Sign up</a>
                   </li>
-                  {% endif %}
+                  {% endif %}  <!--show  navbar elements if user is log in-->
                   {% if session.get('id') is not none %}
                   <li class="nav-item" >
                     <a class="nav-link" id="logout" href="/logout">Log out</a>

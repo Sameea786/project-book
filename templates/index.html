@@ -14,7 +14,7 @@
           </nav>
 
         <div class="row">
-        {% for book in books %}
+        {% for book in books %} <!--loop to show books-->
         <div class= "col-sm-4 book-info" name="third">
             <img src="{{book[4]['smallThumbnail']}}" name="book-link">
             <h3 name="book-title"  id="book-title-{{book[1]}}" val={{book[1]}}>{{book[1]}} </h2>
@@ -24,21 +24,21 @@
                   Dropdown button
                 </button>
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                <div class="dropdown-item form-check" name="first">
-                    <input class="form-check-input favorite" type="checkbox" name="{{book[1]}}" value="" id="{{book[0]}}">
-                    <label class="form-check-label" for="flexCheckDefault">
-                        Favorite
-                      </label>  
-                </div> 
+                    <div class="dropdown-item form-check" name="first">
+                        <input class="form-check-input favorite" type="checkbox" name="{{book[1]}}" value="" id="{{book[0]}}">
+                        <label class="form-check-label" for="flexCheckDefault">
+                            Favorite
+                          </label>  
+                    </div> 
 
-                <div class="dropdown-item form-check">
-                    <input class="form-check-input suggest" type="checkbox" name="{{book[1]}}" value="" id="suggest-{{book[0]}}">
-                    <label class="form-check-label" for="flexCheckDefault">
-                        Suggest
-                    </label>
-                </div> 
+                    <div class="dropdown-item form-check">
+                        <input class="form-check-input suggest" type="checkbox" name="{{book[1]}}" value="" id="suggest-{{book[0]}}">
+                        <label class="form-check-label" for="flexCheckDefault">
+                            Suggest
+                        </label>
+                    </div> 
                 </div>
-              </div>  
+            </div>  
         </div>
         {% endfor %}
         </div>

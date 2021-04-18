@@ -65,32 +65,6 @@ def process_logout():
     return redirect("/")
 
 
-
-@app.route('/addfavorite/<string:google_id>/<string:name>')
-def add_favorite(google_id,name):
-    """this function will add book in user favorite books"""
-    
-    if session.get("id",None):
-        crud.update_userbook_favorite(session["id"],google_id,name, True)
-        return jsonify({'message':'This book added to your favorite'})
-    else:
-        return jsonify({'message':'You need to sign up'})
-
-
-
-@app.route('/addsuggest/<string:google_id>/<string:name>')
-def add_suggest(google_id,name):
-    """this function will add book in user suggestion"""
-    
-    if session.get("id",None):
-        google_id = google_id.split('-')[1]
-        crud.update_userbook_suggest(session["id"],google_id,name, True)
-        return jsonify({'message':'You suggested this book'})
-    else:
-        return jsonify({'message':'You need to sign up'})
-
-
-
 @app.route('/search')
 def search_book():
     """search book"""
@@ -106,7 +80,7 @@ def user_profile():
     if session.get("id") is not None:
         user=crud.get_user(session['id'])
         name = user.fname+" "+user.lname
-        google_id = crud.get_favorite(session['id'])
+        google_id = crud.get_favorite_suggest(session['id'])
         fav_books = search_book_with_google_id(google_id[0])
         suggest_books = search_book_with_google_id(google_id[1])
         return render_template("userProfile.html",fav_books=fav_books,suggest_books=suggest_books, name=name, email=user.email)
@@ -116,7 +90,6 @@ def user_profile():
 
 @app.route('/signup')
 def sign_up():
-    
     if session.get("id") is None:
         return render_template("signup.html")
     else:
@@ -137,14 +110,21 @@ def process_signup():
     return redirect("/")
     
 
-
-
-
-
-    if session.get("id") is None:
-        return render_template("signup.html")
-    else:
-        return redirect("/login")
+@app.route('/favorite',methods=["POST"])
+def favorite():
+      if session.get("id",None):
+        name=request.form.get("name")
+        google_id = request.form.get("google_id")
+        if 'suggest' in google_id:
+            google_id = google_id.split('-')[1]
+            status,message = [(True,"This book has been add to your suggest collection") if request.form.get("status") == "true" else (False,"This book removed from your suggest collection")][0]
+            userbook=crud.update_favorite_suggest(session["id"],google_id,name,None,status)
+        else:
+            status,message = [(True,"This book has been add to your favorite collection") if request.form.get("status") == "true" else (False,"This book removed from your favorite collection")][0]
+            userbook=crud.update_favorite_suggest(session["id"],google_id,name, status,None)
+        return jsonify({'message':message})
+      else:
+        return jsonify({'message':'You need to sign up'})
 
 
 

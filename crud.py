@@ -11,7 +11,7 @@ def create_user(fname, lname, email, password, age, gender, city = None, country
     return user
 
 
-def create_book(google_id, name, subject):
+def create_book(google_id, name, subject=None):
     """create and return new user"""
 
     book = Book(google_id = google_id, name= name, subject = subject)
@@ -20,7 +20,7 @@ def create_book(google_id, name, subject):
     return book
 
 
-def save_user_books(user_id,google_id, review=None, favorite=False, suggest = False ):
+def save_user_books(user_id,google_id, favorite=False, suggest = False , review=None):
     """save user and books relationship"""
     
     userbook = UserBook(user_id= user_id, google_id = google_id, review= review, favorite=favorite, suggest=suggest)
@@ -28,47 +28,7 @@ def save_user_books(user_id,google_id, review=None, favorite=False, suggest = Fa
     db.session.commit()
     return userbook
 
-    #save_user_books(2,YYwaEAAAQBAJ)
-
-
-def update_userbook_favorite(user_id,google_id,name, favorite):
-    """save user and books relationship"""
-    userbook = UserBook.query.filter( (UserBook.user_id== user_id) &  (UserBook.google_id == google_id)).first()
-    if userbook:
-        userbook.favorite=favorite
-        #db.session.query(UserBook).filter((UserBook.user_id== user_id) &  (UserBook.google_id == google_id)).update({'favorite':favorite})
-    else:
-        book = Book.query.get(google_id)
-        if book:
-            userbook = save_user_books(user_id, google_id,None,favorite)
-        else:
-            book=create_book(google_id,name,subject=None)
-            userbook = save_user_books(user_id, google_id,None,favorite)
-
-    db.session.add(userbook)
-    db.session.commit()
-    return userbook
-
-
-def update_userbook_suggest(user_id,google_id, name, suggest):
-    """update user and books """
-    userbook = UserBook.query.filter( (UserBook.user_id== user_id) &  (UserBook.google_id == google_id)).first()
-    if userbook:
-        userbook.suggest=suggest
-    else:
-        book = Book.query.get(google_id)
-        if book:
-            userbook = save_user_books(user_id, google_id,None,suggest)
-        else:
-            book=create_book(google_id,name,subject=None)
-            userbook = save_user_books(user_id, google_id,None,False,suggest)
-    db.session.add(userbook)
-    db.session.commit()
-    return userbook
-
-
-
-
+#save_user_books(2,YYwaEAAAQBAJ)
 
 
 def get_allbooks():
@@ -105,14 +65,35 @@ def get_books_of_user(user_id):
     return books
 
 
-def get_favorite(user_id):
+def get_favorite_suggest(user_id):
     google_id=[]
     google_id.append(db.session.query(Book.google_id).join(UserBook).filter((UserBook.user_id==user_id) &(UserBook.favorite==True ) ).all())
-
     google_id.append(db.session.query(Book.google_id).join(UserBook).filter((UserBook.user_id==user_id) &(UserBook.suggest==True ) ).all())
-   
-
     return google_id
+
+
+
+
+
+
+
+def update_favorite_suggest(user_id,google_id,name,favorite,suggest):
+    """save user and books relationship"""
+    userbook = UserBook.query.filter( (UserBook.user_id== user_id) &  (UserBook.google_id == google_id)).first()
+    if userbook:
+        if favorite != None:
+            userbook.favorite=favorite
+        if suggest != None:
+            userbook.suggest=suggest
+    else:
+        book = Book.query.get(google_id)
+        if book is None :
+            book=create_book(google_id,name,subject=None)
+        userbook = save_user_books(user_id, google_id,favorite,suggest)
+
+    db.session.add(userbook)
+    db.session.commit()
+    return userbook
 
 
 
