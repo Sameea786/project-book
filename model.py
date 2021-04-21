@@ -18,7 +18,7 @@ class User(db.Model):
     gender = db.Column(db.String(10))
     city = db.Column(db.String(50))
     country = db.Column(db.String(50))
-    
+    user_friends = db.relationship('User', secondary='friends', primaryjoin=('User.user_id== Friend.user_id'),secondaryjoin = ('User.user_id== Friend.friend_user_id'))
    #relationship = db.relationship('UserBook')
 
     def __repr__(self):
@@ -57,6 +57,24 @@ class UserBook(db.Model):
     
     def __repr__(self):
         return f'<UserBook user_id={self.user_id}, google_id= {self.google_id}>'
+
+    
+class Friend(db.Model):
+    """a user's friend"""
+    __tablename__ = 'friends'
+
+    id = db.Column(db.Integer, 
+                    autoincrement=True,
+                    primary_key=True)
+    friend_status = db.Column(db.String)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'),nullable=False)
+    friend_user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'),nullable = False)
+   
+
+
+    def __repr__(self):
+        return f'<Friend user_id = {self.user_id}, friend_user_id= {self.friend_user_id}>'
+
 
 
 def connect_to_db(app):

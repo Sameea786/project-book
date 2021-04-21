@@ -34,6 +34,13 @@ $('.favorite,.suggest').on("change",(evt)=>{
     if($("#suggest-div").is(":visible")){
         $("#suggest-div").toggle()
     }
+    if($("#requested-friend-div").is(":visible")){
+        $("#requested-friend-div").toggle()
+    }
+    if($("#friend-div").is(":visible")){
+        
+        $("#friend-div").toggle()
+    }
     $("#favorite-div").show()
  });
 
@@ -45,10 +52,78 @@ $('.favorite,.suggest').on("change",(evt)=>{
     if($("#favorite-div").is(":visible")){
         $("#favorite-div").toggle()
     }
+    if($("#requested-friend-div").is(":visible")){
+        $("#requested-friend-div").toggle()
+    }
+    if($("#friend-div").is(":visible")){
+        
+        $("#friend-div").toggle()
+    }
     $("#suggest-div").show()
    
 
 });
+
+
+$("#requested-link").on("click",(evt)=>{ 
+    evt.preventDefault()
+    if($("#favorite-div").is(":visible")){
+        $("#suggest-div").toggle()
+    }
+    if($("#suggest-div").is(":visible")){
+        
+        $("#suggest-div").toggle()
+    }
+    if($("#friend-div").is(":visible")){
+        
+        $("#friend-div").toggle()
+    }
+    $("#requested-friend-div").show()
+   
+});
+
+$("#friends-link").on("click",(evt)=>{ 
+    evt.preventDefault()
+    if($("#favorite-div").is(":visible")){
+        $("#suggest-div").toggle()
+    }
+    if($("#suggest-div").is(":visible")){
+        
+        $("#suggest-div").toggle()
+    }
+    if($("#requested-friend-div").is(":visible")){
+        
+        $("#requested-friend-div").toggle()
+    }
+    $("#friend-div").show()
+   
+});
+
+
+
+$(".add-friend,.request-friend,.reject-friend").on('click',(evt)=>{
+    evt.preventDefault()
+    const user_id = evt.target.id
+    const status=  evt.target.name
+    alert(user_id)
+    const data={'user_id':user_id,'status':status }
+    
+$.post("/manageFriend",data,(result)=>{
+    alert(result.message)
+   $(evt.target).html(result.message)
+
+});})
+
+
+
+
+
+
+
+
+
+
+
 
 
 

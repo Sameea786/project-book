@@ -5,8 +5,6 @@ from model import connect_to_db
 import crud
 from data.books import get_book_arts,get_books,search_book_with_google_id
 
-
-#import crud
 from jinja2 import StrictUndefined
 
 
@@ -21,7 +19,6 @@ BOOKs=get_book_arts()
 @app.route('/')
 def homepage():
     """View homepage."""
-    
     if 'id' in session: 
         return render_template("index.html",books=BOOKs)
     else:
@@ -83,7 +80,13 @@ def user_profile():
         google_id = crud.get_favorite_suggest(session['id'])
         fav_books = search_book_with_google_id(google_id[0])
         suggest_books = search_book_with_google_id(google_id[1])
-        return render_template("userProfile.html",fav_books=fav_books,suggest_books=suggest_books, name=name, email=user.email)
+        requested_friend=crud.get_requested_friend(session['id'])
+        friends= crud.get_friend(session['id'])
+        print(requested_friend)
+        print(friends)
+      
+        
+        return render_template("userProfile.html",fav_books=fav_books,suggest_books=suggest_books, name=name, email=user.email, friend_requests=requested_friend,friends=friends)
     else:
        return redirect("/" )
 
@@ -127,7 +130,27 @@ def favorite():
         return jsonify({'message':'You need to sign up'})
 
 
+@app.route("/users")
+def show_all_users():
+    if session.get("id",None):
+        users=crud.get_alluser()
+        return render_template("users.html",users=users)
+    else:
+        return redirect("/")
 
+@app.route("/manageFriend",methods=["POST"])
+def add_friend():
+
+    if session.get("id",None):
+        friend_id=request.form.get("user_id")
+        status=request.form.get("status")
+        print(status,session['id'],friend_id)
+        friend=crud.update_friend_status(session['id'],friend_id,status)
+        if friend:
+            return jsonify({'message': status})
+        else:
+            return jsonify({'message':'Issue with request'})
+    
 
 
 

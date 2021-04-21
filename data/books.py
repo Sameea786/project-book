@@ -3,7 +3,6 @@ import json
 import requests
 import os
 APIKEY = os.environ["APIKEY"]
-#APIKEY = "AIzaSyBNT3UiviYErjaZmNCOc9NUzUiBVTRy2B0"
 
 
 def search_book_with_google_id(ids):

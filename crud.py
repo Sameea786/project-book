@@ -1,5 +1,5 @@
 """CRUD opperations"""
-from model import db, User, Book, UserBook, connect_to_db
+from model import db, User, Book, UserBook, Friend, connect_to_db
 
 
 def create_user(fname, lname, email, password, age, gender, city = None, country=None):
@@ -40,6 +40,8 @@ def get_allbooks():
 def get_alluser():
     """return all user"""
     return User.query.all()
+
+
 
 def get_user(userid):
     """get information of particular user"""
@@ -96,7 +98,58 @@ def update_favorite_suggest(user_id,google_id,name,favorite,suggest):
     return userbook
 
 
+def update_friend_status(user_id,friend_user_id,status):
 
+    friends = db.session.query(Friend).all()
+    friend_return= None
+    friend_user_id=int(friend_user_id)
+    for friend in friends:
+        if (friend.friend_user_id == user_id) and (friend.user_id == friend_user_id):
+            print(user_id,friend.user_id,friend.friend_user_id,"inside loop")
+            if status == "rejected":
+                friend_return="delete"
+                db.session.delete(friend)
+                break
+               
+            if status == "accepted":
+                friend.friend_status=status
+                friend_return= friend
+                db.session.add(friend_return)
+                break
+          
+    if friend_return is None:
+        friend_return= Friend(user_id=user_id,friend_user_id=friend_user_id, friend_status=status)
+        db.session.add(friend_return)
+    
+    db.session.commit()
+    return friend_return
+
+
+
+
+
+def get_requested_friend(userid):
+   
+    friends = db.session.query(Friend.user_id, Friend.friend_user_id,Friend.friend_status).filter((Friend.friend_user_id==userid) & (Friend.friend_status=="requested")).all()
+    users_friends = []
+    for user, friend, friend_status in friends:  
+        users_friends.append(db.session.query(User).filter((User.user_id==user) & (User.user_id != userid)).all())
+        print(user,friend,friend_status)
+
+    return users_friends
+
+
+def get_friend(userid):
+
+    friends = db.session.query(Friend.user_id, Friend.friend_user_id,Friend.friend_status).filter(((Friend.user_id==userid) | (Friend.friend_user_id==userid)) & (Friend.friend_status=="accepted")).all()
+    print(friends)
+    users_friends = []
+    for user, friend, friend_status in friends: 
+        users_friends.append(User.query.filter(((User.user_id == friend) | (User.user_id==user)) & (User.user_id != userid)).all())
+
+    return users_friends
+    #email : mhopkins@goodwin.org
+    #password: 4S9P*RvvP$'
 
 
 if __name__ == '__main__':
