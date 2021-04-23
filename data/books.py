@@ -41,31 +41,33 @@ def get_books(keyword):
         authors= [b['volumeInfo']['authors'] if 'authors'  in b['volumeInfo'].keys() else None]
         categoies = [b['volumeInfo']['categories'] if 'categories'  in b['volumeInfo'].keys() else None]
         imageLink =  b['volumeInfo']['imageLinks']
-        books.append((id,title,authors,categoies,imageLink))
+        previewLink= b['volumeInfo']['previewLink']
+        books.append((id,title,authors,categoies,imageLink,previewLink))
 
 
     return books
 
 
 
-def get_book_arts():
+# def get_book_arts():
 
-    url= "https://www.googleapis.com/books/v1/volumes"
-    payload ={ "q":"fiction" , "key" : APIKEY}
-    res=requests.get(url, params = payload)
+#     url= "https://www.googleapis.com/books/v1/volumes"
+#     payload ={ "q":"fiction" , "key" : APIKEY}
+#     res=requests.get(url, params = payload)
 
-    a = res.json()
-    books = []
-    for b in a['items']:
-        id = b["id"]
-        title = b['volumeInfo']['title']
-        authors= [b['volumeInfo']['authors'] if 'authors'  in b['volumeInfo'].keys() else None]
-        categoies = [b['volumeInfo']['categories'] if 'categories'  in b['volumeInfo'].keys() else None]
-        imageLink =  b['volumeInfo']['imageLinks']
-        books.append((id,title,authors,categoies,imageLink))
+#     a = res.json()
+#     books = []
+#     for b in a['items']:
+#         id = b["id"]
+#         title = b['volumeInfo']['title']
+#         authors= [b['volumeInfo']['authors'] if 'authors'  in b['volumeInfo'].keys() else None]
+#         categoies = [b['volumeInfo']['categories'] if 'categories'  in b['volumeInfo'].keys() else None]
+#         imageLink =  b['volumeInfo']['imageLinks']
+#         previewLink= b['volumeInfo']['previewLink']
+#         books.append((id,title,authors,categoies,imageLink,previewLink))
 
 
-    return books
+#     return books
 
 
 

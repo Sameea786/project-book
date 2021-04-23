@@ -13,16 +13,14 @@ model.connect_to_db(server.app)
 model.db.create_all()
 
 def store_books_in_database():
-    a = get_books()
+    a = get_books("cooking")
     id_record= []
-    print(len(a['items']))
    
-    for b in a['items']:
-        id=b['id']
-        title = b['volumeInfo']['title']
+    for b in a:
+        id=b[0]
+        title = b[1]
         crud.create_book(id ,title,"None")
-    print("sameea")
-
+  
 
 def store_user_in_database():
     faker = Faker()
@@ -45,12 +43,12 @@ def store_userbooks_in_database(users, books):
     default =[True,False]
     faker = Faker()
     for i in range(10):
-        userid= random.choice(users)
-        googleid= random.choice(books)
-        favorite= random.choice(default)
+        user = random.choice(users)
+        google = random.choice(books)
+        favorite = random.choice(default)
         suggest = random.choice(default)
         review = faker.text()
-        crud.save_user_books(userid,googleid,review,favorite,suggest)
+        crud.save_user_books(user.user_id,google.google_id,favorite,suggest,review)
 
 
 

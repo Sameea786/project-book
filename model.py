@@ -16,7 +16,7 @@ class User(db.Model):
     lname = db.Column(db.String(30))
     age = db.Column(db.Integer)
     gender = db.Column(db.String(10))
-    city = db.Column(db.String(50))
+    city = db.Column(db.String(100))
     country = db.Column(db.String(50))
     user_friends = db.relationship('User', secondary='friends', primaryjoin=('User.user_id== Friend.user_id'),secondaryjoin = ('User.user_id== Friend.friend_user_id'))
    #relationship = db.relationship('UserBook')
@@ -77,9 +77,9 @@ class Friend(db.Model):
 
 
 
-def connect_to_db(app):
+def connect_to_db(app,db_uri="postgresql:///usersbooks"):
     """Connect the database to our Flask app."""
-    app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql:///usersbooks"
+    app.config["SQLALCHEMY_DATABASE_URI"] = db_uri
     app.config["SQLALCHEMY_ECHO"] = False
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
     db.app = app
@@ -88,9 +88,10 @@ def connect_to_db(app):
 
 
 if __name__ == "__main__":
-    from flask import Flask
 
+    from flask import Flask
     app = Flask(__name__)
+    #from server import app
     connect_to_db(app)
 
 

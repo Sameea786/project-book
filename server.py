@@ -3,7 +3,7 @@
 from flask import (Flask , render_template, request, flash, session, redirect,jsonify)
 from model import connect_to_db
 import crud
-from data.books import get_book_arts,get_books,search_book_with_google_id
+from data.books import get_books,search_book_with_google_id
 
 from jinja2 import StrictUndefined
 
@@ -14,7 +14,7 @@ app = Flask(__name__)
 app.secret_key = 'this-should-be-something-unguessable'
 app.jinja_env.undefined = StrictUndefined
 ID= 1
-BOOKs=get_book_arts()
+BOOKs=get_books('fiction')
 
 @app.route('/')
 def homepage():
@@ -30,8 +30,6 @@ def homepage():
 @app.route('/login')
 def login():
     """check if user is already log in then send on home page otherwise send him on login page"""
-    
-    print("*"*10,session.get("id",False))
     if session.get("id") is None:
         return render_template("login.html" )
     else:
@@ -58,7 +56,6 @@ def process_login():
 def process_logout():
     """in this function user will be logout by assigning session None"""
     session["id"] =None
-    print("*"*10,session["id"])
     return redirect("/")
 
 
@@ -82,10 +79,6 @@ def user_profile():
         suggest_books = search_book_with_google_id(google_id[1])
         requested_friend=crud.get_requested_friend(session['id'])
         friends= crud.get_friend(session['id'])
-        print(requested_friend)
-        print(friends)
-      
-        
         return render_template("userProfile.html",fav_books=fav_books,suggest_books=suggest_books, name=name, email=user.email, friend_requests=requested_friend,friends=friends)
     else:
        return redirect("/" )
@@ -94,14 +87,16 @@ def user_profile():
 @app.route('/signup')
 def sign_up():
     if session.get("id") is None:
-        return render_template("signup.html")
+        return render_template("signup.html")    
     else:
-        return redirect("/login")
+        return redirect("/")
 
 
 
 @app.route('/processSignup', methods=["POST"])
 def process_signup():
+    """this function will save user get information from sign up 
+    form, save in database and return him to index page"""
 
     fname,lname = request.form.get("name").split()
     email = request.form.get("email")
@@ -109,13 +104,14 @@ def process_signup():
     age = request.form.get("age")
     gender= request.form.get("gender")
     user=crud.create_user(fname,lname,email,password,age,gender)
-    print(user)
     return redirect("/")
     
 
-@app.route('/favorite',methods=["POST"])
-def favorite():
-      if session.get("id",None):
+@app.route('/favoriteSuggest',methods=["POST"])
+def favorite_suggest():
+    """Add or remove book from user favorite and suggestion collection 
+    by getting check box through javascript"""
+    if session.get("id",None):
         name=request.form.get("name")
         google_id = request.form.get("google_id")
         if 'suggest' in google_id:
@@ -126,20 +122,27 @@ def favorite():
             status,message = [(True,"This book has been add to your favorite collection") if request.form.get("status") == "true" else (False,"This book removed from your favorite collection")][0]
             userbook=crud.update_favorite_suggest(session["id"],google_id,name, status,None)
         return jsonify({'message':message})
-      else:
+    else:
         return jsonify({'message':'You need to sign up'})
 
 
 @app.route("/users")
 def show_all_users():
+    """if user is logged in show them all user otherwise redirect to index.html"""
     if session.get("id",None):
         users=crud.get_alluser()
+        friends=crud.get_friend(session['id'])
+        use= set(users)
         return render_template("users.html",users=users)
     else:
         return redirect("/")
 
+
+
 @app.route("/manageFriend",methods=["POST"])
-def add_friend():
+def manage_friend():
+    """if user is logged in managing user friend request(requested, accepted, rejected)
+    and creating and updating database accoriding to request else redireect to index.html """
 
     if session.get("id",None):
         friend_id=request.form.get("user_id")
@@ -150,6 +153,8 @@ def add_friend():
             return jsonify({'message': status})
         else:
             return jsonify({'message':'Issue with request'})
+    else:
+        return redirect("/")
     
 
 

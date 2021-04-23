@@ -13,7 +13,7 @@ $('.favorite,.suggest').on("change",(evt)=>{
         'name' :  name,
         'status' : status,
     }
-    $.post('/favorite',dataform ,(result)=>{
+    $.post('/favoriteSuggest',dataform ,(result)=>{
         const name= evt.target.name
         if (result.message=== "You need to sign up"){
 

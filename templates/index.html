@@ -15,13 +15,13 @@
 
         <div class="row">
         {% for book in books %} <!--loop to show books-->
-        <div class= "col-sm-4 book-info" name="third">
-            <img src="{{book[4]['smallThumbnail']}}" name="book-link">
-            <h3 name="book-title"  id="book-title-{{book[1]}}" val={{book[1]}}>{{book[1]}} </h2>
-            <h5 name ="author-name" >{{book[2]}}</h3>  
+        <div class= "col-sm-4 book-info"name="third">
+            <img src="{{book[4]['smallThumbnail']}}"  onclick="window.open('{{book[5]}}','mywindow');" name="book-link">
+            <p name="book-title"  id="book-title-{{book[1]}}" val={{book[1]}}>{{book[1]}} </p>
+            <p name ="author-name" >{{book[2]}}</p>  
             <div class="dropdown book-attr" name="second">
                 <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  Dropdown button
+                  Book
                 </button>
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                     <div class="dropdown-item form-check" name="first">
@@ -30,13 +30,18 @@
                             Favorite
                           </label>  
                     </div> 
-
                     <div class="dropdown-item form-check">
                         <input class="form-check-input suggest" type="checkbox" name="{{book[1]}}" value="" id="suggest-{{book[0]}}">
                         <label class="form-check-label" for="flexCheckDefault">
                             Suggest
                         </label>
-                    </div> 
+                    </div>
+                    <div class="dropdown-item form-check">
+                        <input class="form-check-input review" type="checkbox" name="{{book[1]}}" value="" id="{{book[0]}}">
+                        <label class="form-check-label" for="flexCheckDefault">
+                            Review
+                        </label>
+                    </div>
                 </div>
             </div>  
         </div>
