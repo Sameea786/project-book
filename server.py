@@ -74,11 +74,12 @@ def user_profile():
     if session.get("id") is not None:
         user=crud.get_user(session['id'])
         name = user.fname+" "+user.lname
-        google_id = crud.get_favorite_suggest(session['id'])
-        fav_books = search_book_with_google_id(google_id[0])
+        google_id = crud.get_favorite_suggest(session['id']) # this function is returning all googlgle key which have 
+        fav_books = search_book_with_google_id(google_id[0]) # which user suggeste and favorite
         suggest_books = search_book_with_google_id(google_id[1])
         requested_friend=crud.get_requested_friend(session['id'])
         friends= crud.get_friend(session['id'])
+        print(friends)
         return render_template("userProfile.html",fav_books=fav_books,suggest_books=suggest_books, name=name, email=user.email, friend_requests=requested_friend,friends=friends)
     else:
        return redirect("/" )
@@ -114,7 +115,7 @@ def favorite_suggest():
     if session.get("id",None):
         name=request.form.get("name")
         google_id = request.form.get("google_id")
-        if 'suggest' in google_id:
+        if "suggest" in google_id:
             google_id = google_id.split('-')[1]
             status,message = [(True,"This book has been add to your suggest collection") if request.form.get("status") == "true" else (False,"This book removed from your suggest collection")][0]
             userbook=crud.update_favorite_suggest(session["id"],google_id,name,None,status)
@@ -126,13 +127,30 @@ def favorite_suggest():
         return jsonify({'message':'You need to sign up'})
 
 
+@app.route('/addreview',methods = ["POST"])
+def add_review():
+    """add review of book in database"""
+
+    if session.get("id",None):
+        name = request.form.get("name")
+        google_id = request.form.get("google_id")
+        review = request.form.get("value")
+        userbook=crud.save_review(session["id"],google_id,name,review)
+        print(userbook)
+        return jsonify({"message":"Your review is added"})
+    else:
+        return jsonify({"message":"You need to sign up"})
+
+
+
 @app.route("/users")
 def show_all_users():
-    """if user is logged in show them all user otherwise redirect to index.html"""
+    """if user is logged in show them all user who is not their friend otherwise redirect to index.html"""
     if session.get("id",None):
-        users=crud.get_alluser()
+        allusers=crud.get_alluser()
         friends=crud.get_friend(session['id'])
-        use= set(users)
+        user = [crud.get_user(session['id'])]  #getting user object convert it to list for set subtration
+        users= list(set(allusers)-set(friends)-set(user))
         return render_template("users.html",users=users)
     else:
         return redirect("/")

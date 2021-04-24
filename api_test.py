@@ -126,7 +126,7 @@ class  TestsDatabase(TestCase):
     
     def test_update_friend_status(self):
         """test update friend status by sending requests, accepts, rejects as status"""
-
+        
         result = crud.update_friend_status(1,2,"requested")
         self.assertIn(result.friend_status,"requested")
 
@@ -143,6 +143,7 @@ class  TestsDatabase(TestCase):
         result = crud.get_friend(1)
         self.assertEqual(type(result),list)
         #self.assertIn(result[0].status,"accepted")
+
 
 
 

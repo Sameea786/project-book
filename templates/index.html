@@ -37,13 +37,33 @@
                         </label>
                     </div>
                     <div class="dropdown-item form-check">
-                        <input class="form-check-input review" type="checkbox" name="{{book[1]}}" value="" id="{{book[0]}}">
+                        <input class="form-check-input review-checkbox" type="checkbox" name="{{book[1]}}" value="" id="{{book[0]}}"  data-toggle="modal" data-target="#modal-{{book[0]}}">
                         <label class="form-check-label" for="flexCheckDefault">
                             Review
                         </label>
                     </div>
                 </div>
             </div>  
+            <div class="modal fade bd-example-modal-sm " id="modal-{{book[0]}}"  tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+              <div class="modal-dialog modal-sm">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title">Add book review</h5>
+                    <button type="button" class="close" id="mod-{{book[0]}}"data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    <textarea class="form-control review" aria-label="With textarea" id="textarea-{{book[0]}}"maxlength="300"></textarea>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-primary save-review" name="{{book[1]}}" id="r-{{book[0]}}">Save changes</button>
+                    <button type="button" class="btn btn-secondary close-button" data-dismiss="modal">Close</button>
+                  </div>
+                  
+                </div>
+              </div>
+            </div>
         </div>
         {% endfor %}
         </div>

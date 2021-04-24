@@ -89,6 +89,24 @@ def update_favorite_suggest(user_id,google_id,name,favorite,suggest):
     return userbook
 
 
+def save_review(user_id, google_id, name, review):
+    """save review"""
+    userbook = UserBook.query.filter( (UserBook.user_id== user_id) &  (UserBook.google_id == google_id)).first()
+    if userbook:
+         userbook.review=review   
+    else:
+        book = Book.query.get(google_id)
+        if book is None :
+            book=create_book(google_id,name,subject=None)
+        userbook = save_user_books(user_id, google_id,review=review)
+
+    db.session.add(userbook)
+    db.session.commit()
+    return userbook
+
+
+
+
 def update_friend_status(user_id,friend_user_id,status):
 
     friends = db.session.query(Friend).all()
@@ -135,7 +153,7 @@ def get_friend(userid):
     friends = db.session.query(Friend.user_id, Friend.friend_user_id,Friend.friend_status).filter(((Friend.user_id==userid) | (Friend.friend_user_id==userid)) & (Friend.friend_status=="accepted")).all()
     users_friends = []
     for user, friend, friend_status in friends: 
-        users_friends.append(User.query.filter(((User.user_id == friend) | (User.user_id==user)) & (User.user_id != userid)).all())
+        users_friends.append(User.query.filter(((User.user_id == friend) | (User.user_id==user)) & (User.user_id != userid)).first())
 
     return users_friends
     #email : mhopkins@goodwin.org

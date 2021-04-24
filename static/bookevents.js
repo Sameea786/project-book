@@ -25,6 +25,41 @@ $('.favorite,.suggest').on("change",(evt)=>{
     } );
 });
 
+
+//with this function add review of book in data base
+$('.save-review').on('click',(evt)=>{
+    evt.preventDefault()
+    console.log(evt)
+    const google_id = (evt.target.id).split('-')[1]
+    const name = evt.target.name
+    alert(google_id)
+    alert(name)
+    const value = $("#textarea-"+google_id).val()
+    alert(value)
+
+
+    const dataform={
+        'google_id':google_id,
+        'name' :  name,
+        'value' : value,
+    }
+    $.post('/addreview',dataform ,(result)=>{
+        const name= evt.target.name
+        if (result.message=== "You need to sign up"){
+
+            $('#'+google_id).prop("checked",false)
+            alert(result.message)}
+        else{
+                alert(result.message)
+                $('.close').trigger('click');
+        }
+    } );
+    
+})
+
+
+
+
  
 
 
