@@ -123,6 +123,14 @@ def save_review(user_id, google_id, name, review):
     db.session.commit()
     return userbook
 
+def delete_review(user_id,google_id):    
+    userbook = UserBook.query.filter( (UserBook.user_id== user_id) &  (UserBook.google_id == google_id)).first()
+    if userbook:
+        db.session.delete(userbook)
+        db.session.commit()
+    return userbook
+
+
 
 
 
@@ -131,18 +139,19 @@ def update_friend_status(user_id,friend_user_id,status):
     friends = db.session.query(Friend).all()
     friend_return= None
     friend_user_id=int(friend_user_id)
+
     for friend in friends:
-        if (friend.friend_user_id == user_id) and (friend.user_id == friend_user_id):
+        if (friend.friend_user_id == user_id) and (friend.user_id == friend_user_id) or (friend.user_id == user_id) and (friend.friend_user_id == friend_user_id) :
             print(user_id,friend.user_id,friend.friend_user_id,"inside loop")
-            if status == "rejected":
-                friend_return="delete"
-                db.session.delete(friend)
-                break
-               
+              
             if status == "accepted":
                 friend.friend_status=status
                 friend_return= friend
                 db.session.add(friend_return)
+                break
+            else:
+                friend_return="delete"
+                db.session.delete(friend)
                 break
           
     if friend_return is None:

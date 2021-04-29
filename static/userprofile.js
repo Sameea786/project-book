@@ -50,3 +50,35 @@ $('.save-review').on('click',(evt)=>{
     } );
     
 })
+
+
+$(".delete-button").on('click',(evt)=>{
+    evt.preventDefault()
+
+    const google_id= evt.target.id.split('-')[1]
+    alert(google_id)
+    const data={'google_id': google_id}
+    $.post('/deletereview',data,(result)=>
+    {
+        alert(result.message)
+        $('.close1').trigger('click');
+    })
+});
+
+
+$(".delete-friend").on('click',(evt)=>{
+    evt.preventDefault()
+    const friend_id =evt.target.id
+    const status= evt.target.name
+    alert.
+    alert(status)
+
+    const data = {'user_id':friend_id,'status':status}
+    $.post('/manageFriend',(data),(result)=>{
+        alert(result.message)
+    })
+})
+
+
+
+

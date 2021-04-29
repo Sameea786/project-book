@@ -153,6 +153,18 @@ def add_review():
         return jsonify({"message":"Your review is added"})
     else:
         return jsonify({"message":"You need to sign up"})
+    
+
+@app.route('/deletereview', methods= ["POST"])
+def delete_review():
+
+    google_id = request.form.get("google_id")
+    print(google_id)
+    userbook = crud.delete_review(session["id"], google_id)
+    return jsonify({"message":"You delete your review"})
+
+    
+
 
 
 
@@ -179,10 +191,14 @@ def manage_friend():
         friend_id=request.form.get("user_id")
         status=request.form.get("status")
         print(status,session['id'],friend_id)
+        print(type(session['id']))
         friend=crud.update_friend_status(session['id'],friend_id,status)
         if friend:
+            print("loop delete")
             return jsonify({'message': status})
+            
         else:
+            print("issue")
             return jsonify({'message':'Issue with request'})
     else:
         return redirect("/")
