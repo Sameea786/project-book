@@ -7,11 +7,11 @@
     <div class="card mb-3 user-infor"  >
         <div class="row no-gutters">
           <div class="col-md-4">
-            <img src="/static/img/default_img.jpg.png" class="card-img" alt="...">
+            <img src="/static/img/default_img.jpg.png" actual-image="{{user.img_url}}" class="card-img" alt="...">
           </div>
           <div class="col-md-8">
             <div class="card-body" id ="user-id" name={{user.user_id}}>
-              <h5 class="card-title user-name">{{ user.fname+" "+user.lname}}</h5>
+              <h5 class="card-title user-name">{{ user.fname}}</h5>
               <div class="row no-gutters">
                 <label class="col-1">Email : </label>
                 <p class="col-10 card-text email">{{user.email}}</p>

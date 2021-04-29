@@ -13,16 +13,17 @@ class User(db.Model):
     email = db.Column(db.String(50), unique= True, nullable = False)
     password = db.Column(db.String(15),  nullable= False)
     fname = db.Column(db.String(30), nullable = False)
-    lname = db.Column(db.String(30))
+    img_url = db.Column(db.String)
+    interest= db.Column(db.String)
     age = db.Column(db.Integer)
     gender = db.Column(db.String(10))
     city = db.Column(db.String(100))
-    country = db.Column(db.String(50))
+    country = db.Column(db.String)
     user_friends = db.relationship('User', secondary='friends', primaryjoin=('User.user_id== Friend.user_id'),secondaryjoin = ('User.user_id== Friend.friend_user_id'))
    #relationship = db.relationship('UserBook')
 
     def __repr__(self):
-        return f'<User fname={self.fname} lname = {self.lname}, email ={self.email} >'
+        return f'<User fname={self.fname} img_url = {self.img_url}, email ={self.email} >'
 
 
 class Book(db.Model):
@@ -52,6 +53,7 @@ class UserBook(db.Model):
     review = db.Column(db.String(300))
     favorite = db.Column(db.Boolean, default=False)
     suggest = db.Column(db.Boolean, default= False)
+    lend = db.Column(db.Boolean, default= False)
     user_relationship = db.relationship('User', backref='UserBook')
     book_relationsip = db.relationship('Book', backref='UserBook')
     
@@ -77,7 +79,7 @@ class Friend(db.Model):
 
 
 
-def connect_to_db(app,db_uri="postgresql:///usersbooks"):
+def connect_to_db(app,db_uri="postgresql:///usersbooks1"):
     """Connect the database to our Flask app."""
     app.config["SQLALCHEMY_DATABASE_URI"] = db_uri
     app.config["SQLALCHEMY_ECHO"] = False

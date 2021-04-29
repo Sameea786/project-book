@@ -1,0 +1,36 @@
+<div class="card mb-3" id="favorite-div">
+    <div class="row no gutters ">
+      {% for book,review in zip(fav_books,reviews) %}
+        <div class= "col-sm-3 book-info" style="margin-top: 20px;margin-left: 20px;margin-right: auto;">
+            <img src="{{book[4]['smallThumbnail']}}" name="book-link" data-toggle="modal" data-target="#modal-{{book[0]}}">
+            <p name="book-title"  id="book-title-{{book[1]}}" val={{book[1]}}>{{book[1]}} </p>
+            <p name ="author-name" >{{book[2]}}</p> 
+          </div>
+
+            <!--modal to edit review-->
+            <div class="modal fade bd-example-modal-sm " id="modal-{{book[0]}}"  tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+              <div class="modal-dialog modal-sm">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title">Add book review</h5>
+                    <button type="button" class="close1" id="mod-{{book[0]}}"data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    <textarea class="form-control review" aria-label="With textarea" id="textarea-{{book[0]}}"maxlength="300">{{review[0]}}</textarea>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-primary save-review" name="{{book[1]}}" id="r-{{book[0]}}">Save changes</button>
+                    <button type="button" class="btn btn-secondary close-button" data-dismiss="modal">Close</button>
+                  </div>
+                  
+                </div>
+              </div>
+            </div>
+            
+      {% endfor %}
+    </div>
+</div>
+
+<script src="/static/userprofile.js"></script>

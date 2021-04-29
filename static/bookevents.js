@@ -3,11 +3,14 @@
 
 //adding book in user favorite and suggestion collection
 
-$('.favorite,.suggest').on("change",(evt)=>{
+$('.favorite,.suggest,.lend').on("change",(evt)=>{
     evt.preventDefault()
+    alert("book")
     const google_id = evt.target.id
     const name= evt.target.name
     const status = evt.target.checked
+    alert(google_id)
+    alert(status)
     const dataform={
         'google_id':google_id,
         'name' :  name,
@@ -16,7 +19,6 @@ $('.favorite,.suggest').on("change",(evt)=>{
     $.post('/favoriteSuggest',dataform ,(result)=>{
         const name= evt.target.name
         if (result.message=== "You need to sign up"){
-
             $('#'+google_id).prop("checked",false)
             alert(result.message)}
         else{
@@ -28,16 +30,13 @@ $('.favorite,.suggest').on("change",(evt)=>{
 
 //with this function add review of book in data base
 $('.save-review').on('click',(evt)=>{
+
     evt.preventDefault()
+    alert("book")
     console.log(evt)
     const google_id = (evt.target.id).split('-')[1]
     const name = evt.target.name
-    alert(google_id)
-    alert(name)
     const value = $("#textarea-"+google_id).val()
-    alert(value)
-
-
     const dataform={
         'google_id':google_id,
         'name' :  name,
@@ -46,94 +45,15 @@ $('.save-review').on('click',(evt)=>{
     $.post('/addreview',dataform ,(result)=>{
         const name= evt.target.name
         if (result.message=== "You need to sign up"){
-
             $('#'+google_id).prop("checked",false)
             alert(result.message)}
         else{
                 alert(result.message)
-                $('.close').trigger('click');
+                $('.close1').trigger('click');
         }
     } );
     
 })
-
-
-
-
- 
-
-
-// displaying user favorite collection
- $("#favorite-link").on("click",(evt)=>{
-     evt.preventDefault()
-    if($("#suggest-div").is(":visible")){
-        $("#suggest-div").toggle()
-    }
-    if($("#requested-friend-div").is(":visible")){
-        $("#requested-friend-div").toggle()
-    }
-    if($("#friend-div").is(":visible")){
-        
-        $("#friend-div").toggle()
-    }
-    $("#favorite-div").show()
- });
-
-
-
- // displaying user suggestion collection
- $("#suggest-link").on("click",(evt)=>{ 
-    evt.preventDefault()
-    if($("#favorite-div").is(":visible")){
-        $("#favorite-div").toggle()
-    }
-    if($("#requested-friend-div").is(":visible")){
-        $("#requested-friend-div").toggle()
-    }
-    if($("#friend-div").is(":visible")){
-        
-        $("#friend-div").toggle()
-    }
-    $("#suggest-div").show()
-   
-
-});
-
-
-$("#requested-link").on("click",(evt)=>{ 
-    evt.preventDefault()
-    if($("#favorite-div").is(":visible")){
-        $("#suggest-div").toggle()
-    }
-    if($("#suggest-div").is(":visible")){
-        
-        $("#suggest-div").toggle()
-    }
-    if($("#friend-div").is(":visible")){
-        
-        $("#friend-div").toggle()
-    }
-    $("#requested-friend-div").show()
-   
-});
-
-$("#friends-link").on("click",(evt)=>{ 
-    evt.preventDefault()
-    if($("#favorite-div").is(":visible")){
-        $("#suggest-div").toggle()
-    }
-    if($("#suggest-div").is(":visible")){
-        
-        $("#suggest-div").toggle()
-    }
-    if($("#requested-friend-div").is(":visible")){
-        
-        $("#requested-friend-div").toggle()
-    }
-    $("#friend-div").show()
-   
-});
-
 
 
 $(".add-friend,.request-friend,.reject-friend").on('click',(evt)=>{
@@ -148,6 +68,85 @@ $.post("/manageFriend",data,(result)=>{
    $(evt.target).html(result.message)
 
 });})
+
+
+$("#review-link").on("click",(evt)=>{ 
+    evt.preventDefault()
+    console.log("review")
+    $.get("/review",(result)=>{
+        $( "#book-review" ).html(result)
+    
+});
+})
+
+$("#favorite-link").on("click",(evt)=>{ 
+    evt.preventDefault()
+    console.log("favorite")
+    $.get("/favorite",(result)=>{
+        $( "#book-review" ).html(result)
+    
+});
+   
+})
+
+$("#suggest-link").on("click",(evt)=>{ 
+    evt.preventDefault()
+    console.log("suggest")
+    $.get("/suggest",(result)=>{
+        $( "#book-review" ).html(result)
+   
+});  
+
+})
+
+$("#requested-link").on("click",(evt)=>{ 
+    evt.preventDefault()
+    console.log("request")
+    $( "#book-review" ).load( "/requestfriend")
+
+})
+
+$("#friends-link").on("click",(evt)=>{ 
+    evt.preventDefault()
+    console.log("friend")
+    $( "#book-review" ).load( "/friends")
+
+})
+
+$("#lend-link").on("click",(evt)=>{ 
+    evt.preventDefault()
+    $( "#book-review" ).load( "/sharebooks")
+
+})
+
+
+$(".user-name").on("click",(evt)=>{
+    evt.preventDefault()
+    const friend_id = evt.target.id
+    const data={
+        'friendid':friend_id
+    }
+    $.post("/friendprofile",data,(result)=>
+    {
+        alert(result)
+    })
+})
+
+// $(".friend-favorite").on("click",(evt)=>{ 
+//     evt.preventDefault()
+//     alert(evt.target.id)
+//     const data={'friend_id':evt.target.id}
+//     $.get("/favorite",(data),(result)=>{
+//         $("#check" ).html(result)
+//         $( "#favoritebook" ).modal('show');
+//         })
+
+
+// })
+
+
+
+
 
 
 

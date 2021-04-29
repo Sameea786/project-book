@@ -1,0 +1,18 @@
+<div class="card mb-3" id="suggest-div">
+    <div class="row no gutters">
+    {% for book in books %}
+    <div class= "col-sm-3 book-info" style="margin-top: 20px;margin-left:30px;margin-right: auto;">
+        <img src="{{book[4]['smallThumbnail']}}" name="book-link">
+        <p name="book-title"  id="book-title-{{book[1]}}" val={{book[1]}}>{{book[1]}} </p>
+        <p name ="author-name" >{{book[2]}}</p>
+        <div name="second">
+          <button class="btn btn-secondary " type="button">
+            Request to lend
+          </button>
+      </div>   
+
+    </div>
+    {% endfor %}
+    <script src="/static/bookevents.js"></script>
+  </div>
+  </div>

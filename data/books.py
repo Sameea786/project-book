@@ -18,7 +18,7 @@ def search_book_with_google_id(ids):
     for book in books_api:
         google_id = book["id"]
         title = book['volumeInfo']['title']
-        authors= [book['volumeInfo']['authors'] if 'authors'  in book['volumeInfo'].keys() else None]
+        authors= [book['volumeInfo']['authors'] if 'authors'  in book['volumeInfo'].keys() else None][0][0]
         categoies = [book['volumeInfo']['categories'] if 'categories'  in book['volumeInfo'].keys() else None]
         imageLink =  book['volumeInfo']['imageLinks']
         books.append((google_id,title,authors,categoies,imageLink))
@@ -38,11 +38,11 @@ def get_books(keyword):
     for b in a['items']:
         id = b["id"]
         title = b['volumeInfo']['title']
-        authors= [b['volumeInfo']['authors'] if 'authors'  in b['volumeInfo'].keys() else None]
+        authors= [b['volumeInfo']['authors'] if 'authors'  in b['volumeInfo'].keys() else None][0][0]
         categoies = [b['volumeInfo']['categories'] if 'categories'  in b['volumeInfo'].keys() else None]
         imageLink =  b['volumeInfo']['imageLinks']
-        previewLink= b['volumeInfo']['previewLink']
-        books.append((id,title,authors,categoies,imageLink,previewLink))
+        subtitle= [b["volumeInfo"]["subtitle"] if 'subtitle'  in b['volumeInfo'].keys() else None]
+        books.append((id,title,authors,categoies,imageLink,subtitle))
 
 
     return books

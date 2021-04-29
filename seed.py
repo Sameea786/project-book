@@ -29,13 +29,12 @@ def store_user_in_database():
         email = faker.email()
         password= faker.password()
         name= faker.name()
-        fname=name.split()[0]
-        lname = name.split()[1]
+        fname=name
         age = random.choice(range(15,50))
         gender = random.choice(default_gender)
         city = faker.city()
         country = faker.country()
-        crud.create_user(fname, lname,email, password, age, gender, city, country)
+        crud.create_user(fname,email, password, age, gender, city, country)
 
 
 
@@ -46,9 +45,11 @@ def store_userbooks_in_database(users, books):
         user = random.choice(users)
         google = random.choice(books)
         favorite = random.choice(default)
+        
         suggest = random.choice(default)
+        lend = random.choice(default)
         review = faker.text()
-        crud.save_user_books(user.user_id,google.google_id,favorite,suggest,review)
+        crud.save_user_books(user.user_id,google.google_id,favorite,suggest,review,lend)
 
 
 

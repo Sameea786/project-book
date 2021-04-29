@@ -1,154 +1,39 @@
 {% extends 'base.html' %}
-
+{% block title %}Books Website {% endblock %}
 {% block body %}
 
 <div class="container" style="max-width: 80%;margin-left: 10%;margin-top: 10px;">
-    <div class="card mb-3" >
-        <div class="row no-gutters">
-          <div class="col-md-4">
-            <img src="/static/img/default_img.jpg.png" class="card-img" alt="...">
-          </div>
-          <div class="col-md-8">
+      <div class="card mb-3" >
+          <div class="row no-gutters">
+              <div class="col-md-4">
+            <img  src="{{img_url}}"  class="card-img rounded-circle" alt="..." style="max-height: 300px;">
+              </div>
+              <div class="col-md-8">
             <div class="card-body">
               <h5 class="card-title user-name">{{name}}</h5>
               <p class="card-text email">{{email}}</p>
               <a class="card-text edit">Edit</a>
             </div>
+              </div>
           </div>
-        </div>
-    </div>
+      </div>
 
-
-    <div class="card mb-3">
+      <div class="card mb-3">
       <div class="row no-gutters">
           <a  id ="favorite-link" class="btn btn-secondary col-2" style="background-color: rgb(217, 255, 242);">Favorite</a>
           <a  id ="suggest-link" class="btn btn-secondary col-2" style="background-color: rgb(217, 255, 242);">Suggest</a>
           <a  id="review-link" class="btn btn-secondary col-2" style="background-color: rgb(217, 255, 242);">Review</a>
           <a  id="friends-link" class="btn btn-secondary col-2" style="background-color: rgb(217, 255, 242);">Friends</a>
           <a  id="requested-link" class="btn btn-secondary col-2" style="background-color: rgb(217, 255, 242);">Friend Requests</a>
+          <a  id="lend-link" class="btn btn-secondary col-2" style="background-color: rgb(217, 255, 242);">Share book</a>
       </div>
-    </div>
-
-    <div class="card mb-3" style="display: none" id="favorite-div">
-        <div class="row no gutters ">
-          {% for book in fav_books %}
-            <div class= "col-sm-3 book-info" style="margin-top: 20px;margin-left: 20px;margin-right: auto;">
-                <img src="{{book[4]['smallThumbnail']}}" name="book-link">
-                <p name="book-title"  id="book-title-{{book[1]}}" val={{book[1]}}>{{book[1]}} </p>
-                <p name ="author-name" >{{book[2]}}</p> 
-                  <div class="dropdown book-attr" name="second">
-                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                      Remove Collection
-                    </button>
-                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <div class="dropdown-item form-check" name="first">
-                            <input class="form-check-input favorite" type="checkbox" name="{{book[1]}}" value="" id="{{book[0]}}" checked>
-                            <label class="form-check-label" for="flexCheckDefault">
-                                Favorite
-                              </label>  
-                        </div>  
-                    </div>
-                </div>   
-
-            </div>
-          {% endfor %}
-        </div>
-    </div>
-
-  <div class="card mb-3" style="display: none" id="suggest-div">
-    <div class="row no gutters">
-    {% for book in suggest_books %}
-    <div class= "col-sm-3 book-info" style="margin-top: 20px;margin-left:30px;margin-right: auto;">
-        <img src="{{book[4]['smallThumbnail']}}" name="book-link">
-        <p name="book-title"  id="book-title-{{book[1]}}" val={{book[1]}}>{{book[1]}} </p>
-        <p name ="author-name" >{{book[2]}}</p>
-        <div class="dropdown book-attr" name="second">
-          <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Remove Collection
-          </button>
-          <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-
-              <div class="dropdown-item form-check">
-                  <input class="form-check-input suggest" type="checkbox" name="{{book[1]}}" value="" id="suggest-{{book[0]}}" checked>
-                  <label class="form-check-label" for="flexCheckDefault">
-                      Suggest
-                  </label>
-              </div> 
-          </div>
-      </div>   
-
-    </div>
-    {% endfor %}
-  </div>
-  </div>
-
-  <!--show friend request-->
-  <div class="container" style="display: none" id="requested-friend-div">
-  {% for friend in friend_requests %}
-  <div class="card mb-3 user-infor"   >
-      <div class="row no-gutters">
-        <div class="col-md-4">
-          <img src="/static/img/default_img.jpg.png" class="card-img" alt="...">
-        </div>
-        <div class="col-md-8">
-          <div class="card-body" id ="user-id" name={{friend[0].user_id}}>
-            <h5 class="card-title user-name">{{ friend.fname+" "+friend.lname}}</h5>
-            <div class="row no-gutters">
-              <label class="col-1">Email : </label>
-              <p class="col-10 card-text email">{{friend.email}}</p>
-            </div>
-            <div class="row" style=>
-              <label class="col-2">Gender : </label>
-              <p class="col-9 card-text gender">{{friend.gender}}</p>
-            </div>
-            <div class="row no-gutters">
-              <label class="col-1">Age : </label>
-              <p class="col-10 card-text age">{{friend.age}}</p>
-             </div> 
-          </div>
-        </div>
       </div>
-      <button type="submit" class="btn btn-primary reject-friend " id={{friend[0].user_id}} name="rejected">Reject</button>
+    
+      <div class = "review" id="book-review">
+      
+      </div>
 
-      <button type="submit" class="btn btn-primary add-friend " id={{friend[0].user_id}} name="accepted">Accept</button>
-  </div>
-  {% endfor %}
 </div>
 
 
-<!--Friends-->
-
-<div class="container" style="display: none" id="friend-div">
-  {% for friend in friends %}
-  <div class="card mb-3 user-infor"   >
-      <div class="row no-gutters">
-        <div class="col-md-4">
-          <img src="/static/img/default_img.jpg.png" class="card-img" alt="...">
-        </div>
-        <div class="col-md-8">
-          <div class="card-body" id ="user-id" name={{friend.user_id}}>
-            <h5 class="card-title user-name">{{ friend.fname+" "+friend.lname}}</h5>
-            <div class="row no-gutters">
-              <label class="col-1">Email : </label>
-              <p class="col-10 card-text email">{{friend.email}}</p>
-            </div>
-            <div class="row" style=>
-              <label class="col-2">Gender : </label>
-              <p class="col-9 card-text gender">{{friend.gender}}</p>
-            </div>
-            <div class="row no-gutters">
-              <label class="col-1">Age : </label>
-              <p class="col-10 card-text age">{{friend.age}}</p>
-             </div> 
-          </div>
-        </div>
-      </div>
-  </div>
-  {% endfor %}
-</div>
-
-
-
-</div>
-
-  {% endblock %}
+{% endblock %}

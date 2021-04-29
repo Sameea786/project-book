@@ -12,44 +12,85 @@
               </div>
             </form>
           </nav>
-
         <div class="row">
         {% for book in books %} <!--loop to show books-->
         <div class= "col-sm-4 book-info"name="third">
-            <img src="{{book[4]['smallThumbnail']}}"  onclick="window.open('{{book[5]}}','mywindow');" name="book-link">
-            <p name="book-title"  id="book-title-{{book[1]}}" val={{book[1]}}>{{book[1]}} </p>
-            <p name ="author-name" >{{book[2]}}</p>  
-            <div class="dropdown book-attr" name="second">
-                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  Book
-                </button>
-                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                    <div class="dropdown-item form-check" name="first">
-                        <input class="form-check-input favorite" type="checkbox" name="{{book[1]}}" value="" id="{{book[0]}}">
-                        <label class="form-check-label" for="flexCheckDefault">
-                            Favorite
-                          </label>  
-                    </div> 
-                    <div class="dropdown-item form-check">
-                        <input class="form-check-input suggest" type="checkbox" name="{{book[1]}}" value="" id="suggest-{{book[0]}}">
-                        <label class="form-check-label" for="flexCheckDefault">
-                            Suggest
-                        </label>
+            <img src="{{book[4]['smallThumbnail']}}"  data-toggle="modal" data-target="#book-{{book[0]}}" name="book-link">
+            <p name="book-title"  id="book-title-{{book[1]}}" val={{book[1]}}>{{book[1]}} </p> 
+             
+           
+            <!--modal to show book info-->
+            <div class="modal fade" id="book-{{book[0]}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+              <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title book-informatio" id="exampleModalLabel">Book Information</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    <div class="card mb-3" >
+                      <div class="row no-gutters">
+                        <div class="col-md-4">
+                          <img src="{{book[4]['smallThumbnail']}}"class="card-img  book-image" alt="..." style="max-height: 300px;">
+                        </div>
+                        <div class="col-md-8">
+                          <div class="card-body">
+                            <h5 class="card-title book-title">{{book[1]}}</h5>
+                            <p class="card-text book-author">{{book[2]}}</p>
+                            <p class="card-text description">{{book[5][0]}}</p>
+                            <div class="dropdown book-attr" name="second">
+                              <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Book
+                              </button>
+                              <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                  <div class="dropdown-item form-check" name="first">
+                                      <input class="form-check-input favorite" type="checkbox" name="{{book[1]}}" value="" id="{{book[0]}}">
+                                      <label class="form-check-label" for="flexCheckDefault">
+                                          Favorite
+                                        </label>  
+                                  </div> 
+                                  <div class="dropdown-item form-check">
+                                      <input class="form-check-input suggest" type="checkbox" name="{{book[1]}}" value="" id="suggest-{{book[0]}}">
+                                      <label class="form-check-label" for="flexCheckDefault">
+                                          Suggest
+                                      </label>
+                                  </div>
+                                  <div class="dropdown-item form-check">
+                                    <input class="form-check-input lend" type="checkbox" name="{{book[1]}}" value="" id="lend-{{book[0]}}">
+                                    <label class="form-check-label" for="flexCheckDefault">
+                                        Lend
+                                    </label>
+                                </div>
+                                  <div class="dropdown-item form-check">
+                                      <input class="form-check-input review-checkbox" type="checkbox" name="{{book[1]}}" value="" id="{{book[0]}}"  data-toggle="modal" data-target="#modal-{{book[0]}}">
+                                      <label class="form-check-label" for="flexCheckDefault">
+                                          Review
+                                      </label>
+                                  </div>
+                              </div>
+                          </div>
+                          </div>
+                        </div>
+                      </div>
                     </div>
-                    <div class="dropdown-item form-check">
-                        <input class="form-check-input review-checkbox" type="checkbox" name="{{book[1]}}" value="" id="{{book[0]}}"  data-toggle="modal" data-target="#modal-{{book[0]}}">
-                        <label class="form-check-label" for="flexCheckDefault">
-                            Review
-                        </label>
-                    </div>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    
+                  </div>
                 </div>
-            </div>  
+              </div>
+            </div>
+
+            <!--model to save review-->
             <div class="modal fade bd-example-modal-sm " id="modal-{{book[0]}}"  tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
               <div class="modal-dialog modal-sm">
                 <div class="modal-content">
                   <div class="modal-header">
                     <h5 class="modal-title">Add book review</h5>
-                    <button type="button" class="close" id="mod-{{book[0]}}"data-dismiss="modal" aria-label="Close">
+                    <button type="button" class="close1" id="mod-{{book[0]}}"data-dismiss="modal" aria-label="Close">
                       <span aria-hidden="true">&times;</span>
                     </button>
                   </div>
@@ -64,6 +105,8 @@
                 </div>
               </div>
             </div>
+
+
         </div>
         {% endfor %}
         </div>

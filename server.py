@@ -6,6 +6,11 @@ import crud
 from data.books import get_books,search_book_with_google_id
 
 from jinja2 import StrictUndefined
+import cloudinary.uploader
+import os
+
+CLOUDINARY_KEY = os.environ['CLOUDINARY_KEY']
+CLOUDINARY_KEY_SECRET = os.environ['CLOUDINARY_SECRET']
 
 
 
@@ -73,16 +78,13 @@ def user_profile():
     """user profile and return his favorite and suggested book """
     if session.get("id") is not None:
         user=crud.get_user(session['id'])
-        name = user.fname+" "+user.lname
+        name = user.fname
+        img_url=user.img_url
         google_id = crud.get_favorite_suggest(session['id']) # this function is returning all googlgle key which have 
-        fav_books = search_book_with_google_id(google_id[0]) # which user suggeste and favorite
-        suggest_books = search_book_with_google_id(google_id[1])
-        requested_friend=crud.get_requested_friend(session['id'])
-        friends= crud.get_friend(session['id'])
-        print(friends)
-        return render_template("userProfile.html",fav_books=fav_books,suggest_books=suggest_books, name=name, email=user.email, friend_requests=requested_friend,friends=friends)
+        return render_template("userProfile.html", name=name, email=user.email, img_url=img_url)
     else:
        return redirect("/" )
+
 
 
 @app.route('/signup')
@@ -99,12 +101,18 @@ def process_signup():
     """this function will save user get information from sign up 
     form, save in database and return him to index page"""
 
-    fname,lname = request.form.get("name").split()
+    fname = request.form.get("name")
     email = request.form.get("email")
     password = request.form.get("password")
     age = request.form.get("age")
     gender= request.form.get("gender")
-    user=crud.create_user(fname,lname,email,password,age,gender)
+    user_image = request.files['userimage']
+    interest = request.form.get("interest")
+    print(CLOUDINARY_KEY_SECRET)
+    result = cloudinary.uploader.upload(user_image,api_key=CLOUDINARY_KEY,api_secret=CLOUDINARY_KEY_SECRET,
+    cloud_name="dj4hb9gek")
+    img_url=result['secure_url']
+    user=crud.create_user(fname,img_url,email,password,age,gender,interest)
     return redirect("/")
     
 
@@ -119,12 +127,17 @@ def favorite_suggest():
             google_id = google_id.split('-')[1]
             status,message = [(True,"This book has been add to your suggest collection") if request.form.get("status") == "true" else (False,"This book removed from your suggest collection")][0]
             userbook=crud.update_favorite_suggest(session["id"],google_id,name,None,status)
+        elif "lend" in google_id:
+            google_id = google_id.split('-')[1]
+            status,message = [(True,"Lend") if request.form.get("status") == "true" else (False,"Not available for Lend")][0]
+            userbook=crud.update_favorite_suggest(session["id"],google_id,name,None,None,status)
         else:
             status,message = [(True,"This book has been add to your favorite collection") if request.form.get("status") == "true" else (False,"This book removed from your favorite collection")][0]
             userbook=crud.update_favorite_suggest(session["id"],google_id,name, status,None)
         return jsonify({'message':message})
     else:
         return jsonify({'message':'You need to sign up'})
+
 
 
 @app.route('/addreview',methods = ["POST"])
@@ -173,7 +186,71 @@ def manage_friend():
             return jsonify({'message':'Issue with request'})
     else:
         return redirect("/")
+
+
+
+@app.route("/review")
+def get_review():
     
+    google_id_with_review = crud.get_review_google_id(session['id'])
+    books=search_book_with_google_id(google_id_with_review[0])
+    return render_template("userreview.html",fav_books=books,reviews =  google_id_with_review[1],zip=zip)
+
+
+@app.route("/favorite")
+def get_favorite():
+    
+    friend_id= request.args.get("friend_id")
+    # if friend_id:
+    #     google_id = crud.get_favorite_suggest(friend_id) # this function is returning all googlgle key which have 
+    #     fav_books = search_book_with_google_id(google_id[0])
+    # else:
+    print("favorite")
+    google_id = crud.get_favorite_suggest(session['id']) # this function is returning all googlgle key which have 
+    fav_books = search_book_with_google_id(google_id[0])
+    return render_template("favoritebook.html",fav_books=fav_books)
+
+@app.route("/suggest")
+def get_suggest():
+
+    google_id = crud.get_favorite_suggest(session['id']) # this function is returning all googlgle key which have 
+    suggest_books = search_book_with_google_id(google_id[1])
+    print("suggest")
+    return render_template("suggestbook.html",suggest_books=suggest_books)
+
+@app.route("/requestfriend")
+def get_requested_friend():
+
+    requested_friend=crud.get_requested_friend(session['id'])
+    return render_template("requestfriend.html", friend_requests=requested_friend)
+
+@app.route("/friends")
+def get_friends():
+
+    friends= crud.get_friend(session['id'])
+    #logic_for_friend()
+    return render_template("friends.html", friends=friends)
+
+def logic_for_friend():
+    friends= crud.get_friend(session['id'])
+    friend_list=[]
+    for friend in friends:
+        google_id = crud.get_favorite_suggest(friend.user_id) # this function is returning all googlgle key which have 
+        fav_books = search_book_with_google_id(google_id[0])
+        suggest_books = search_book_with_google_id(google_id[1])
+        
+        friend_list.append([friend,fav_books,suggest_books])
+    print(friend_list)
+
+
+
+
+@app.route("/sharebooks")
+def get_sharebooks():
+    google_id = crud.get_lend(session['id'])
+    books=search_book_with_google_id(google_id)
+    return render_template("sharebook.html", books=books)
+
 
 
 
