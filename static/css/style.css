@@ -1,0 +1,75 @@
+div.main-container{
+    background-color:rgb(255, 245, 233);
+    color:brown;
+    font-size: medium;
+    font-family: serif;
+    border-radius: 5px;
+    padding-top: 1px;
+    margin-top: 20px;
+}
+
+.view{
+    color:brown;}
+
+.navbar-custom{
+    color:black;
+    font-family: serif;
+    font-size: 20px;
+}
+
+
+.book-info{
+    background-color: whitesmoke;
+    margin:5px;
+    border-radius: 5px;
+      /* margin-left: 3px; 
+    margin-bottom: 15px; */
+}
+img{
+    display:block;
+    margin-top: 5%;
+    margin-left: auto;
+    margin-right: auto;
+    width:95%
+}
+/* .navbar-custom a{
+    color:brown
+} */
+ .modal-body{
+    background-color: whitesmoke;
+   
+}
+.card-text{
+     color:rgb(41, 40, 40);
+}
+.card{
+    background-color: white; ;
+}
+ .form{
+
+    margin-bottom: 40px; 
+    margin-top: 50px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-bottom: 20px;
+    
+     width:60%
+ 
+}  
+.form-signup{
+    background-color:white;
+    border-radius: 5px;
+    margin-bottom: 30px;
+   
+}
+.btn-primary{
+    background-color: rgb(139, 62, 62);
+}
+.btn-secondary{
+    background-color: brown;
+    
+
+}
+a{
+    color:brown
+}

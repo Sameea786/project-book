@@ -7,7 +7,7 @@
     <div class="card mb-3 user-infor"  >
         <div class="row no-gutters">
           <div class="col-md-4">
-            <img src="/static/img/default_img.jpg.png" actual-image="{{user.img_url}}" class="card-img" alt="...">
+            <img src= "{{user.img_url}}" onerror="this.src='/static/img/default_img.jpg.png';" class="card-img" alt="...">
           </div>
           <div class="col-md-8">
             <div class="card-body" id ="user-id" name={{user.user_id}}>

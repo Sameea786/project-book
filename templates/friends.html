@@ -4,27 +4,27 @@
     <div class="card mb-3 friend-information"  >
         <div class="row no-gutters">
           <div class="col-md-4">
-            <img src="/static/img/default_img.jpg.png" actual-image="{{friend.img_url}}" class="card-img" alt="...">
+            <img src= "{{friend.img_url}}" onerror="this.src='/static/img/default_img.jpg.png';" class="card-img" alt="...">
           </div>
           <div class="col-md-8">
             <div class="card-body" id ="user-id" name={{friend.user_id}}>
-              <a href="/friendprofile" name="hassan" id = {{friend.user_id}} class="card-title user_id">{{ friend.fname}}</a>
+              <div class="card-title user_id"  name="hassan" id = {{friend.user_id}} >{{ friend.fname}}</div>
               <div class="row no-gutters">
-                <label class="col-1">Email : </label>
+                <label class="col-2">Email  </label>
                 <p class="col-10 card-text email">{{friend.email}}</p>
               </div>
               <div class="row" style=>
-                <label class="col-2">Gender : </label>
+                <label class="col-2">Gender  </label>
                 <p class="col-9 card-text gender">{{friend.gender}}</p>
               </div>
               <div class="row no-gutters">
-                <label class="col-1">Age : </label>
+                <label class="col-1">Age  </label>
                 <p class="col-10 card-text age">{{friend.age}}</p>
               </div> 
               <div class="row">
                   <a class="col-3 friend-favorite" href="#" id = "{{friend.user_id}}">Favorites</a>
-                  <a class="col-3" href=#>Suggested</a>
-                  <a class="col-3" href=#>Reviewed</a>
+                  <a class="col-3 friend-suggest" href=# id = "{{friend.user_id}}">Suggested</a>
+                  <a class="col-3 friend-review" href=# id = "{{friend.user_id}}">Reviewed</a>
                   <a class= "col-3 delete-friend" name="delete" href=# id={{friend.user_id}}>Delete Friend</a>
               </div>
             </div>
@@ -41,11 +41,11 @@
 </div>
 
 
-<div class="modal fade"  id="favoritebook" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade"  id="friendbook" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+        <h5 class="modal-title" id="title"></h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -55,7 +55,6 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
       </div>
     </div>
   </div>

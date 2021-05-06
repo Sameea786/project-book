@@ -5,12 +5,9 @@
 
 $('.favorite,.suggest,.lend').on("change",(evt)=>{
     evt.preventDefault()
-    alert("book")
     const google_id = evt.target.id
     const name= evt.target.name
     const status = evt.target.checked
-    alert(google_id)
-    alert(status)
     const dataform={
         'google_id':google_id,
         'name' :  name,
@@ -32,7 +29,6 @@ $('.favorite,.suggest,.lend').on("change",(evt)=>{
 $('.save-review').on('click',(evt)=>{
 
     evt.preventDefault()
-    alert("book")
     console.log(evt)
     const google_id = (evt.target.id).split('-')[1]
     const name = evt.target.name
@@ -60,7 +56,6 @@ $(".add-friend,.request-friend,.reject-friend").on('click',(evt)=>{
     evt.preventDefault()
     const user_id = evt.target.id
     const status=  evt.target.name
-    alert(user_id)
     const data={'user_id':user_id,'status':status }
     
 $.post("/manageFriend",data,(result)=>{
@@ -132,17 +127,18 @@ $(".user-name").on("click",(evt)=>{
     })
 })
 
-// $(".friend-favorite").on("click",(evt)=>{ 
-//     evt.preventDefault()
-//     alert(evt.target.id)
-//     const data={'friend_id':evt.target.id}
-//     $.get("/favorite",(data),(result)=>{
-//         $("#check" ).html(result)
-//         $( "#favoritebook" ).modal('show');
-//         })
 
+$(".save-profile").on("click",(evt)=>{
+    const name = $("#name").val()
+    const email = $("#email").val()
+    const img_file=$("image").val()
+    const data = {'name':name,'email':email,'img_file':img_file}
+    $.post("/updateprofile",(data),(result)=>{
+        $('.close2').trigger('click');
+        alert("update")
+    });
+})
 
-// })
 
 
 

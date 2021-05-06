@@ -10,6 +10,19 @@ def create_user(fname, img_url,email, password, age, gender,interest, city = Non
     db.session.commit()
     return user
 
+def update_user(id,name,email,img_url):
+    """update user profile"""
+    user = get_user(id)
+    if user:
+        user.name=name
+        user.email=email
+        user.img_url=img_url
+        # db.session.add(user)
+        db.session.commit()
+    return user
+
+
+
 
 
 
@@ -80,6 +93,11 @@ def get_review_google_id(user_id):
     review = db.session.query(UserBook.review).filter((UserBook.user_id==user_id) &(UserBook.review != None ) ).all()
 
     return (google_id,review)
+
+def test_get_review_google_id(user_id):
+
+    book_review_google_id = db.session.query(UserBook).filter((UserBook.user_id==user_id) &(UserBook.review != None ) ).all()
+    return book_review_google_id
 
 
 
@@ -207,8 +225,8 @@ def save_user_books(user_id,google_id, favorite=False, suggest = False , review=
     return userbook
 
 
-if __name__ == '__main__':
-    from server import app
-    connect_to_db(app)
+# if __name__ == '__main__':
+#     from server import app
+#     connect_to_db(app)
 
 

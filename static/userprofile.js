@@ -25,12 +25,14 @@ $('.favorite,.suggest,.lend').on("change",(evt)=>{
     } );
 });
 
+
 //with this function add review of book in data base
 $('.save-review').on('click',(evt)=>{
     alert("profile")
     evt.preventDefault()
     console.log(evt)
     const google_id = (evt.target.id).split('-')[1]
+
     const name = evt.target.name
     const value = $("#textarea-"+google_id).val()
     const dataform={
@@ -70,14 +72,53 @@ $(".delete-friend").on('click',(evt)=>{
     evt.preventDefault()
     const friend_id =evt.target.id
     const status= evt.target.name
-    alert.
-    alert(status)
 
     const data = {'user_id':friend_id,'status':status}
     $.post('/manageFriend',(data),(result)=>{
         alert(result.message)
     })
 })
+
+//Displaying friend favorite books
+$(".friend-favorite").on("click",(evt)=>{ 
+    evt.preventDefault()
+    
+    const data={'friend_id':evt.target.id}
+    $.get("/favorite",(data),(result)=>{
+        $("#title").html("Friend Favorite Books")
+        $("#check" ).html(result)
+        $("#friendbook").modal('show');
+        })
+
+
+})
+//Displaying friend sugested book
+$(".friend-suggest").on("click",(evt)=>{ 
+    evt.preventDefault()
+    const data={'friend_id':evt.target.id}
+    $.get("/suggest",(data),(result)=>{
+        $("#title").html("Friend Suggested Books")
+        $("#check" ).html(result)
+        $("#friendbook").modal('show');
+        })
+
+    })
+
+//Displaying friend reviewed books
+
+$(".friend-review").on("click",(evt)=>{ 
+    evt.preventDefault()
+    const data={'friend_id':evt.target.id}
+    $.get("/review",(data),(result)=>{
+        $("#title").html("Friend Reviewed Books")
+        $("#check" ).html(result)
+        $("#friendbook").modal('show');
+        })
+
+    })
+
+
+
 
 
 

@@ -2,7 +2,8 @@ import json
 
 import requests
 import os
-APIKEY = os.environ["APIKEY"]
+#APIKEY = os.environ["APIKEY"]
+APIKEY = "AIzaSyDudgOMsoofSBtsI0RdWz65lzfRYl0YiUM"
 
 
 def search_book_with_google_id(ids):
@@ -16,15 +17,40 @@ def search_book_with_google_id(ids):
         books_api.append(res.json())
     books = []
     for book in books_api:
+        if 'error' not in book:
+            google_id = book["id"]
+            title = book['volumeInfo']['title']
+            authors= [book['volumeInfo']['authors'] if 'authors'  in book['volumeInfo'].keys() else None][0][0]
+            categoies = [book['volumeInfo']['categories'] if 'categories'  in book['volumeInfo'].keys() else None]
+            imageLink =  book['volumeInfo']['imageLinks']
+            books.append((google_id,title,authors,categoies,imageLink))
+
+
+    return books
+
+
+def search_book_with_google_id_and_set_with_review(ids_reviews):
+    """search book with google id and return books"""
+
+    payload ={ "key" : APIKEY}
+    books_api=[]
+    books=[]
+    for i in ids_reviews:
+        url2 = "https://www.googleapis.com/books/v1/volumes/"+i.google_id
+        res=requests.get(url2, params = payload)
+        book=res.json()
         google_id = book["id"]
         title = book['volumeInfo']['title']
         authors= [book['volumeInfo']['authors'] if 'authors'  in book['volumeInfo'].keys() else None][0][0]
         categoies = [book['volumeInfo']['categories'] if 'categories'  in book['volumeInfo'].keys() else None]
         imageLink =  book['volumeInfo']['imageLinks']
-        books.append((google_id,title,authors,categoies,imageLink))
+        review= i.review
+        books.append((google_id,title,authors,categoies,imageLink,review))
 
 
     return books
+
+
 
 
 
@@ -38,7 +64,8 @@ def get_books(keyword):
     for b in a['items']:
         id = b["id"]
         title = b['volumeInfo']['title']
-        authors= [b['volumeInfo']['authors'] if 'authors'  in b['volumeInfo'].keys() else None][0][0]
+        authors= [b['volumeInfo']['authors'] if 'authors'  in b['volumeInfo'].keys() else None]
+        authors = [authors if authors[0] is None else authors[0][0]]
         categoies = [b['volumeInfo']['categories'] if 'categories'  in b['volumeInfo'].keys() else None]
         imageLink =  b['volumeInfo']['imageLinks']
         subtitle= [b["volumeInfo"]["subtitle"] if 'subtitle'  in b['volumeInfo'].keys() else None]

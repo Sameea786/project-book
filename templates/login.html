@@ -3,9 +3,13 @@
 {% block title %}Books Website {% endblock %}
 
 {% block body %}
-<form class="form-signin" method="POST" action="/processlogin" style="width:50%; margin-left: auto;margin-right: auto;">
 
+<div class="row" style="margin-top: 20px;margin-bottom:10px;">
+  <div class="col-sm-5">
+<form class="form-signin" method="POST" action="/processlogin" style="margin-left:3%; margin-bottom:40px">
+  <div style="text-align: center;">
     <h2 class="form-signin-heading">Please Sign In</h2>
+  </div>
   
     <div class="form-group">
       <label for="email-field" class="sr-only">Email Address</label>
@@ -28,10 +32,15 @@
              required >
     </div>
   
-    <button class="btn btn-lg btn-primary btn-block" id="signin" type="submit">Sign In
-    </button>
+    <button class="btn btn-lg btn-primary btn-block" id="signin" type="submit">Sign In</button>
   
   </form>
+</div>
+  <div class="col-sm-6" style="background-image: url('/static/img/book3.jpg');background-size:cover;background-position: center; margin-left: 70px;">
+    
+  </div>
+</div>
+
 
 
 {% endblock %}

@@ -3,18 +3,23 @@
 
 {% block body %}
 <div>
-    <div class="container">
-          <nav class="navbar navbar-light bg-light" style="width: 60%;margin-top: 50px;margin-left: 40%;">
-            <form class="container-fluid" action="/search">
+    <div class="container" style="margin-top: 20px;">
+          <nav class="navbar navbar-light bg-light" style="width: 60%;margin-left: 40%;">
+            <form class="container-fluid " action="/search">
               <div class="input-group">
                 <input class="form-control me-2" name ="search" type="search" placeholder="Search" aria-label="Search">
                 <button class="btn btn-outline-success" id="searchbook" type="submit">Search</button>
               </div>
             </form>
           </nav>
-        <div class="row">
-        {% for book in books %} <!--loop to show books-->
-        <div class= "col-sm-4 book-info"name="third">
+         
+          {% for row in books | batch(5,['','','','',{'smallThumbnail':''},['']])%}
+        
+        <div class="row" style="margin-right:auto;">
+          
+          <!--loop to show books-->
+          {%for book in row %}
+        <div class= "col book-info" name="third">
             <img src="{{book[4]['smallThumbnail']}}"  data-toggle="modal" data-target="#book-{{book[0]}}" name="book-link">
             <p name="book-title"  id="book-title-{{book[1]}}" val={{book[1]}}>{{book[1]}} </p> 
              
@@ -109,7 +114,9 @@
 
         </div>
         {% endfor %}
+       
         </div>
+        {% endfor %}
     </div>
 </div>
 {% endblock %}

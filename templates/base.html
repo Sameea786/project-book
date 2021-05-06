@@ -7,7 +7,8 @@
     <meta name="viewport" content="width=device-width">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    
+     <link rel="stylesheet" href="/static/css/style.css">
+   
      <script
      src="https://code.jquery.com/jquery-3.6.0.js"
      integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
@@ -23,11 +24,11 @@
     {% block head %}{% endblock %}
   </head>
   <body class="container">
-    <nav class="navbar sticky-top navbar-light bg-light">
+    <nav class="navbar navbar-custom  main-container">
       <div class="site-logo">
-          <a href="index.html" class="text-black"><span class="text">Book</span>World</a>
+          <a href="/" class="text-black"><span class="text">Book</span>World</a>
       </div>
-      <nav class="navbar navbar-expand-sm navbar-light bg-light">
+      <nav class="navbar navbar-expand-sm">
           <button class="navbar-toggler d-lg-none" type="button" data-toggle="collapse"
               data-target="#collapsibleNavId" aria-controls="collapsibleNavId" aria-expanded="false"
               aria-label="Toggle navigation">
@@ -68,11 +69,34 @@
           </div>
       </nav>
     </nav>
+
+    <div class="view"
+    style="background-image: url('/static/img/books2.jpg');background-size:cover;background-position: center; min-height: 300px;">
+    <!-- Mask & flexbox options-->
+    <div class="mask rgba-gradient align-items-center">
+        <!--Grid row-->
+        <div class="row">
+            <!--Grid column-->
+            <div class="col-md-5  text-center text-md mt-xl-5 mb-5"
+                data-wow-delay="0.3s"  >
+                <div style="background: rgba(247, 206, 165, 0.6)">
+                <h2 class="h2-responsive text  mt-sm-5" >Welcome To BookWorld </h2>
+                <hr class="hr-light">
+                <h5 class="mb-4" >Here you can search books and find friends who have same interest..</h6>
+            </div>
+            </div>
+            <!--Grid column-->
+        </div>
+        <!--Grid row-->
+    </div>
+</div>
+    <div class="main-container">
     {% block body %}{% endblock %}
 
     {% block after_body %}{% endblock %}
 
     <script src="/static/bookevents.js"></script>
+  </div>
     
   </body>
 </html>

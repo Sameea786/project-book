@@ -12,20 +12,20 @@
             <div class="card-body">
               <h5 class="card-title user-name">{{name}}</h5>
               <p class="card-text email">{{email}}</p>
-              <a class="card-text edit">Edit</a>
+              <a href=# class="edit" data-toggle="modal" data-target="#edit-profile">Edit</a>
             </div>
               </div>
           </div>
       </div>
 
       <div class="card mb-3">
-      <div class="row no-gutters">
-          <a  id ="favorite-link" class="btn btn-secondary col-2" style="background-color: rgb(217, 255, 242);">Favorite</a>
-          <a  id ="suggest-link" class="btn btn-secondary col-2" style="background-color: rgb(217, 255, 242);">Suggest</a>
-          <a  id="review-link" class="btn btn-secondary col-2" style="background-color: rgb(217, 255, 242);">Review</a>
-          <a  id="friends-link" class="btn btn-secondary col-2" style="background-color: rgb(217, 255, 242);">Friends</a>
-          <a  id="requested-link" class="btn btn-secondary col-2" style="background-color: rgb(217, 255, 242);">Friend Requests</a>
-          <a  id="lend-link" class="btn btn-secondary col-2" style="background-color: rgb(217, 255, 242);">Share book</a>
+      <div class="row user-profile-links no-gutters">
+          <a  id ="favorite-link" class="btn btn-secondary col-2" style="color:white;">Favorite</a>
+          <a  id ="suggest-link" class="btn btn-secondary col-2" style="color:white;">Suggest</a>
+          <a  id="review-link" class="btn btn-secondary col-2" style="color:white;">Review</a>
+          <a  id="friends-link" class="btn btn-secondary col-2" style="color:white;">Friends</a>
+          <a  id="requested-link" class="btn btn-secondary col-2"style="color:white;">Friend Requests</a>
+          <a  id="lend-link" class="btn btn-secondary col-2" style="color:white;">Share book</a>
       </div>
       </div>
     
@@ -35,5 +35,55 @@
 
 </div>
 
+<div class="modal" id="edit-profile" tabindex="-1" role="dialog">
+  <form  method="POST" action="/updateprofile" enctype="multipart/form-data" style="margin-left:20%px"></form> 
+  <div class="form-group" style="margin-top: 20px;">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Edit Profile</h5>
+        <button type="button" class="close2" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+
+        <form  method="POST" action="/updateprofile" enctype="multipart/form-data" style="margin-left:20%px">
+            
+          <div class="form-group" style="margin-top: 20px;">
+              <label for="colFormLabelLg" class="col-sm-4 col-form-label col-form-label-lg">Full Name</label>
+              <div class="col-sm-10">
+                  <input type="name" name="name" class="form-control form-control-lg" id="name" value={{name}}>
+              </div>
+              <label for="colFormLabelLg" class="col-sm-2 col-form-label col-form-label-lg">Email</label>
+              <div class="col-sm-10">
+                  <input type="email" class="form-control form-control-lg" id="email" name="email"
+                    value={{email}}>
+              </div>
+              <div class="card-body">
+                  <input type="file" name="userimage" id="image">
+              </div>
+
+              <div class="card-body">
+                  <button type="submit" class="btn btn-primary btn-lg">Submit</button>
+              </div>
+          </div>
+
+
+      </form>
+      </div>
+      <div class="modal-footer">
+        <!-- <button type="submit" class="btn btn-primary btn-lg">Submit</button>
+
+        <button type="submit" class="btn btn-primary ">Save changes</button> -->
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+  </div>
+</form>
+</div>
+
 
 {% endblock %}
+

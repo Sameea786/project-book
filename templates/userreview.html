@@ -1,11 +1,14 @@
-<div class="card mb-3" id="favorite-div">
+<div id="favorite-div">
     <div class="row no gutters ">
-      {% for book,review in zip(fav_books,reviews) %}
-        <div class= "col-sm-3 book-info" style="margin-top: 20px;margin-left: 20px;margin-right: auto;">
-            <img src="{{book[4]['smallThumbnail']}}" name="book-link" data-toggle="modal" data-target="#modal-{{book[0]}}">
+      {% for book in fav_books %}
+        <div class= "col-3 book-info" style="margin-top: 20px;margin-left: 20px;margin-right: auto;">
+            <img src="{{book[4]['smallThumbnail']}}" name="book-link" >
             <p name="book-title"  id="book-title-{{book[1]}}" val={{book[1]}}>{{book[1]}} </p>
-            <p name ="author-name" >{{book[2]}}</p> 
             
+            <p name ="book-review"> <span class="highlight" style="font-weight:bold">Review :</span>{{book[5]}}</p>
+            {% if friend_id is none %}
+              <a href="#" data-toggle="modal" data-target="#modal-{{book[0]}}" style="color:blue">Edit</a>
+            {% endif %}
           </div>
 
             <!--modal to edit review-->
@@ -19,7 +22,7 @@
                     </button>
                   </div>
                   <div class="modal-body">
-                    <textarea class="form-control review" aria-label="With textarea" id="textarea-{{book[0]}}"maxlength="300">{{review[0]}}</textarea>
+                    <textarea class="form-control review" aria-label="With textarea" id="textarea-{{book[0]}}"maxlength="300">{{book[5]}}</textarea>
                   </div>
                   <div class="modal-footer">
                     <button type="button" class="btn btn-primary save-review" name="{{book[1]}}" id="r-{{book[0]}}">Save changes</button>
@@ -34,4 +37,4 @@
     </div>
 </div>
 
-<script src="/static/userprofile.js"></script>
+ <script src="/static/userprofile.js"></script>

@@ -1,12 +1,17 @@
 
 
-<div class="card mb-3" id="favorite-div">
+<div  id="favorite-div">
     <div class="row no gutters ">
       {% for book in fav_books %}
-        <div class= "col-sm-3 book-info" style="margin-top: 20px;margin-left: 20px;margin-right: auto;">
-            <img src="{{book[4]['smallThumbnail']}}" name="book-link" data-toggle="modal" data-target="#book-{{book[0]}}">
+        <div class= "col book-info" style="margin-top: 20px;margin-left: 20px;margin-right: auto;">
+          {% if friend_id is none %}
+          <img src="{{book[4]['smallThumbnail']}}" name="book-link" data-toggle="modal" data-target="#book-{{book[0]}}">
+          {% endif %}
+          {% if friend_id is not none %}
+            <img src="{{book[4]['smallThumbnail']}}" name="book-link">
+          {% endif %}
             <p name="book-title"  id="book-title-{{book[1]}}" val={{book[1]}}>{{book[1]}} </p>
-            <p name ="author-name" >{{book[2]}}</p>        
+                    
 
         </div>
 

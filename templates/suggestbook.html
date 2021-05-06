@@ -1,11 +1,15 @@
 
-<div class="card mb-3" id="suggest-div">
+<div  id="suggest-div">
     <div class="row no gutters">
     {% for book in suggest_books %}
-    <div class= "col-sm-3 book-info" style="margin-top: 20px;margin-left:30px;margin-right: auto;">
+    <div class= "col book-info" style="margin-top: 20px;margin-left:30px;margin-right: auto;">
+      {% if friend_id is none %}
         <img src="{{book[4]['smallThumbnail']}}" name="book-link" data-toggle="modal" data-target="#book-{{book[0]}}">
+      {% endif %}
+      {% if friend_id is not none %}
+        <img src="{{book[4]['smallThumbnail']}}" name="book-link">
+      {% endif %}
         <p name="book-title"  id="book-title-{{book[1]}}" val={{book[1]}}>{{book[1]}} </p>
-        <p name ="author-name" >{{book[2]}}</p>
     </div>
 
     <!--book info-->
