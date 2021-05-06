@@ -25,7 +25,7 @@ BookWorld is a book website, which help user to find books and store in thier co
 To run this project first install debpendencies and clone project
 
 ```bash
-    clone git
+    git clone https://github.com/Sameea786/project-book.git
 ```
 create and activate virtual enviornment  in windows
 ```bash
@@ -66,15 +66,15 @@ Run the app
 
 ## Tech Stack
 
-Python
-Flask
-jinga2
-PostgresSQL
-SQLAlchemy
-HTML
-CSS
-Bootstrap
-JQuery
-Cloudinary
+-Python
+-Flask
+-jinga2
+-PostgresSQL
+-SQLAlchemy
+-HTML
+-CSS
+-Bootstrap
+-JQuery
+-Cloudinary
 
   
