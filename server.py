@@ -34,11 +34,12 @@ def homepage():
 
 @app.route('/login')
 def login():
-    """check if user is already log in then send on home page otherwise send him on login page"""
+    """check if user is already log in send on home page otherwise send him on login page"""
     if session.get("id") is None:
         return render_template("login.html" )
     else:
         return redirect("/")
+
 
 
 
@@ -76,8 +77,8 @@ def sign_up():
 
 @app.route('/processSignup', methods=["POST"])
 def process_signup():
-    """this function will save user get information from sign up 
-    form,return him to index page"""
+    """this function will save user information from sign up 
+    form, return index page"""
 
     fname = request.form.get("name")
     email = request.form.get("email")
@@ -102,12 +103,9 @@ def user_profile():
         user=crud.get_user(session['id'])
         name = user.fname
         img_url=user.img_url
-        google_id = crud.get_favorite_suggest(session['id']) # this function is returning all googlgle key which have 
         return render_template("userProfile.html", name=name, email=user.email, img_url=img_url)
     else:
        return redirect("/" )
-
-
 
 
 
@@ -125,6 +123,10 @@ def update_profile():
     return redirect("/")
     
 
+
+
+
+
 @app.route('/search')
 def search_book():
     """search book"""
@@ -133,6 +135,7 @@ def search_book():
     return  render_template("index.html", books= books)
 
     
+
 
 @app.route('/favoriteSuggest',methods=["POST"])
 def favorite_suggest():

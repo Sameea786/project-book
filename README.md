@@ -12,12 +12,28 @@ BookWorld is a book website, which help user to find books and store in thier co
 - Homepage:
     user can search books.And add books in favorite, suggested collection. They can also add review of book.
     but for that user has to be log in and signup option.
+
+    ![Home Page](static/img/homepage.png)
+
+- User Signup:
+    User signup page.
+![Signup](static/img/signup.png)
+
+- User Signin:
+    user sign in page.
+![Signin](static/img/signin.png)
  
 - User Profile:
     on this page user can see thier profile, friends and collection infromation.
+![User Profile](static/img/profile.png)
     
 - User:
     user can see other user and can send them friend requests.
+    - Friend Request
+    ![Friend Requests](static/img/friendrequest.png)
+    - Friends 
+    ![Friends](static/img/friends.png)
+
 
   
 ## Installation 
@@ -25,7 +41,7 @@ BookWorld is a book website, which help user to find books and store in thier co
 To run this project first install debpendencies and clone project
 
 ```bash
-    git clone https://github.com/Sameea786/project-book.git
+    git clone  https://github.com/Sameea786/project-book.git
 ```
 create and activate virtual enviornment  in windows
 ```bash
@@ -66,15 +82,15 @@ Run the app
 
 ## Tech Stack
 
--Python
--Flask
--jinga2
--PostgresSQL
--SQLAlchemy
--HTML
--CSS
--Bootstrap
--JQuery
--Cloudinary
+- Python
+- Flask
+- jinga2
+- PostgresSQL
+- SQLAlchemy
+- HTML
+- CSS
+- Bootstrap
+- JQuery
+- Cloudinary
 
   
